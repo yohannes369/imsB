@@ -4,8 +4,12 @@ import Db from './config/db.js';
 const app = express();
 
 app.use(express.json());
+// code routes register employee
+app.get('api/employees/register', (req, res) => {
+  res.send('Register Employee');
+});
 
-app.get('/', (req, res) => {
+app.post('/', (req, res) => {
   res.send('Hello World');
 });
 
