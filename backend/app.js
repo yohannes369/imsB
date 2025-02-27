@@ -1,4 +1,4 @@
-// filepath: /C:/Users/user/Documents/po/Inventory-B/imsB/backend/app.js
+// filepath: /c:/Users/user/Documents/po/Inventory-B/imsB/backend/app.js
 import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
@@ -12,15 +12,16 @@ app.use(cors());
 
 // Database connection
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  host: "localhost", 
+  user:   "root",
+  password:  "", // Ensure empty string if no password
+  database: "ims",
+
 });
 
 db.connect((err) => {
   if (err) throw err;
-  console.log("✅ MySQL Connected...");
+  console.log(" Database Connected...");
 });
 
 // Basic route
@@ -32,5 +33,5 @@ app.get("/", (req, res) => {
 // const employeeRoutes = require("./routes/employees");
 // app.use("/employees", employeeRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
+const PORT = 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
