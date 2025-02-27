@@ -1,12 +1,13 @@
-import React from 'react'
+// filepath: /C:/Users/user/Documents/po/Inventory-B/imsB/backend/app.js
+import express from 'express';
 
-function 
-() {
-  return (
-    <div>
-        
-    </div>
-  )
-}
+const app = express();
+const port = process.env.PORT || 3000;
 
-export default 
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
