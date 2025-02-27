@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../config/db");
 
 // Register Employee
-export const registerEmployee = async (req, res) => {
+export const register = async (req, res) => {
   const { first_name, last_name, email, password, role, phone_number } = req.body;
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -11,7 +11,8 @@ export const registerEmployee = async (req, res) => {
 
   db.query(sql, [first_name, last_name, email, hashedPassword, role, phone_number], (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json({ message: "Employee Registered Successfully!" });
+    // res.json({ message: "Employee Registered Successfully!" });
+    console.log("Employee Registered Successfully!");
   });
 };
 
