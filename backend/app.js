@@ -1,35 +1,28 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import authRoutes from './Routes/authRoutes.js';
-import db from './config/db.js';
-
-dotenv.config(); // Load environment variables
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import db from "./config/db.js";
+import router from "./Routes/authRoute.js"; // Import authRoutes
+import jwt from "jsonwebtoken";
+dotenv.config(); // Ensure this line is present
 
 const app = express();
-app.use(express.json());
+
 app.use(cors());
+app.use(express.json());
 
 // Check database connection
-db.getConnection((err, connection) => {
+db.getConnection((err) => {
   if (err) {
-    console.error("❌ MySQL connection failed:", err);
-    return;
+    console.error("Error connecting to database:", err);
+  } else {
+    console.log("Connected to database");
   }
-  console.log("✅ MySQL Connected...");
-  connection.release();
 });
 
-// Use routes
-app.use('/api/auth', authRoutes);
+// Use auth routes
+app.use("/api/auth", router);
 
-// Default route
-app.get('/', (req, res) => {
-  res.status(200).json({ message: "Hello, World!" });
-});
-
-// Use environment port
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
+app.listen(5000, () => {
+  console.log("Server started on port 5000");
 });
