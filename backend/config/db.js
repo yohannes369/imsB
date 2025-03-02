@@ -3,11 +3,17 @@ import mysql from 'mysql2';
 
 // Database connection using createPool
 const Db = mysql.createPool({
-  host: "localhost",
-  user: "ims", // Ensure this user exists in MySQL
-  password: "123456", // Ensure this password is correct
-  database: "ims",
+  // host: "localhost",
+  // user: "ims", // Ensure this user exists in MySQL
+  // password: "123456", // Ensure this password is correct
+  // database: "ims",
+  // connectionLimit: 10
+  host:process.env.DB_HOST,
+  user:process.env.DB_USER,
+  password:process.env.DB_PASS,
+  database:process.env.DB_NAME,
   connectionLimit: 10
+    
 });
 
 // Test database connection

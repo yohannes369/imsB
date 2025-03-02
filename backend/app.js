@@ -1,25 +1,34 @@
 import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
-import Db from './config/db.js'; // Ensure this file correctly exports the DB connection
+import authRoutes from './Routes/authRoutes.js';
+import db from './config/db.js';
 
 dotenv.config(); // Load environment variables
 
 const app = express();
-
 app.use(express.json());
+app.use(cors());
 
-// ✅ Corrected Route: Register Employee
-app.get('/api/employees/register', (req, res) => {
-  console.log("Register Employee API Hit");
-  res.status(200).json({ message: "Register Employee API Working" });
+// Check database connection
+db.getConnection((err, connection) => {
+  if (err) {
+    console.error("❌ MySQL connection failed:", err);
+    return;
+  }
+  console.log("✅ MySQL Connected...");
+  connection.release();
 });
 
-// ✅ Default Route (Test Endpoint)
+// Use routes
+app.use('/api/auth', authRoutes);
+
+// Default route
 app.get('/', (req, res) => {
   res.status(200).json({ message: "Hello, World!" });
 });
 
-// ✅ Use Environment Port
+// Use environment port
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
