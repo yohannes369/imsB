@@ -8,7 +8,16 @@ dotenv.config(); // Ensure this line is present
 
 const app = express();
 
-app.use(cors());
+app.use(
+  //update cors
+  cors({
+    origin: "http://localhost:3000", // Allow frontend domain
+    credentials: true, // Allow cookies & authentication
+    methods: ["GET", "POST"], // Allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+  })
+);
+
 app.use(express.json());
 
 // Check database connection
