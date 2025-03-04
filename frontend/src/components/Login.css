@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .login-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  form {
+    display: inline-block;
+    text-align: left;
+  }
+  
+  form div {
+    margin-bottom: 10px;
+  }
+  
+  .header {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+  }
+  
+  .header .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .header .navmenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  .header .navmenu ul li {
+    margin-right: 20px;
+  }
+  
+  .header .navmenu ul li a {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .header .cta-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  
+  .header .cta-btn:hover {
+    background-color: #0056b3;
+  }

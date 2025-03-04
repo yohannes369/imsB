@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+// import Footer from "./Footer/Footer";
+// import Header from "./Header/Header";
 const Login = ({ setRole }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,6 +32,8 @@ const Login = ({ setRole }) => {
 
   return (
     <div>
+      {/* <Header /> */}
+        
       <h1>Login</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleLogin}>
@@ -54,8 +57,11 @@ const Login = ({ setRole }) => {
         </div>
         <button type="submit">Login</button>
       </form>
+      {/* <Footer /> */}
     </div>
   );
 };
 
 export default Login;
+
+
