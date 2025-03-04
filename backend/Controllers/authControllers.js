@@ -48,6 +48,34 @@ export const login = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+// //delete user
+// export const deleteUser = async (req, res) => {
+//   try {
+//     const sql = "DELETE FROM employees WHERE employee_id = ?";
+
+//     db.query(sql, [req.params.id], (err, result) => {
+//       if (err) return res.status(500).json({ error: err.message });
+//       res.json({ message: "Employee deleted successfully!" });
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+// fech data of users
+export const fetchData = async (req, res) => {
+  try {
+    const sql = "SELECT * FROM employees";  
+    db.query(sql, (err, results) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json(results);
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};  
+
 // Logout Employee
 export const logout = async (req, res) => {
   res.json({ message: "Logout successful!" });

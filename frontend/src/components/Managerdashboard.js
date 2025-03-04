@@ -1,4 +1,18 @@
-// components/Managerdashboard.js
-export default function Managerdashboard() {
-  return <h1>Manager Dashboard</h1>;
+
+
+export default function ManagerDashboard() {
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  };  
+  return (
+    <div>
+      <h1>Admin Dashboard</h1>
+ 
+      
+      <button onClick={logout}>Logout
+      </button>
+
+    </div>
+  );
 }

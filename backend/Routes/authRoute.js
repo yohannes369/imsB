@@ -11,7 +11,7 @@
 // // router.post("/login", login);
 // export default router;
 import express from "express";
-import { register, login, logout } from "../Controllers/authControllers.js";
+import { register, login, logout,fetchData } from "../Controllers/authControllers.js";
 import { authenticate } from "../Middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -21,6 +21,9 @@ router.post("/register", register);
 
 // Login route
 router.post("/login", login);
+
+// Fetch data route
+router.get("/fetchData", authenticate, fetchData);
 
 // Logout route
 router.post("/logout", authenticate, logout);
