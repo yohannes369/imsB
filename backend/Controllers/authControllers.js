@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import db from "../config/db.js";
-import { response } from "express";
+// import { response } from "express";
 
 // Register Employee
 export const register = async (req, res) => {
@@ -23,7 +23,8 @@ export const register = async (req, res) => {
 
 // Login Employee
 export const login = async (req, res) => {
-  const jwtSecret = "your-secret-key"; // Directly set the JWT secret key here
+ // use from invirometnt varibe
+ const jwtSecret = process.env.JWT_SECRET || "book";
   try {
     const { email, password } = req.body;
     const sql = "SELECT * FROM employees WHERE email = ?";
@@ -47,3 +48,7 @@ export const login = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+// Logout Employee
+export const logout = async (req, res) => {
+  res.json({ message: "Logout successful!" });
+};  
