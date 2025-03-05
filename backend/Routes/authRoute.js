@@ -23,7 +23,7 @@ router.post("/register", register);
 router.post("/login", login);
 
 // Fetch data route
-router.get("/fetchData", authenticate, fetchData);
+router.get("/fetchData", fetchData);
 
 // Logout route
 router.post("/logout", authenticate, logout);

@@ -68,7 +68,8 @@ export const fetchData = async (req, res) => {
     const sql = "SELECT * FROM employees";  
     db.query(sql, (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
-      res.json(results);
+      // res.json(results);
+      console.log(results);
     });
   } catch (error) {
     console.error(error);
