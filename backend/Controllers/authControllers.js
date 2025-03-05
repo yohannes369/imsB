@@ -63,19 +63,19 @@ export const login = async (req, res) => {
 //   }
 // };
 // fech data of users
-export const fetchData = async (req, res) => {
-  try {
-    const sql = "SELECT * FROM employees";  
-    db.query(sql, (err, results) => {
-      if (err) return res.status(500).json({ error: err.message });
-      // res.json(results);
-      console.log(results);
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};  
+export const fetchData = (req, res) => {
+  const sql = "SELECT * FROM employees";  
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Database Error:", err);
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.json(results); // Send response to client
+  });
+};
+ 
 
 // Logout Employee
 export const logout = async (req, res) => {
