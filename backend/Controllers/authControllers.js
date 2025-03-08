@@ -48,21 +48,31 @@ export const login = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-// //delete user
-// export const deleteUser = async (req, res) => {
-//   try {
-//     const sql = "DELETE FROM employees WHERE employee_id = ?";
+//delete user
 
-//     db.query(sql, [req.params.id], (err, result) => {
-//       if (err) return res.status(500).json({ error: err.message });
-//       res.json({ message: "Employee deleted successfully!" });
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
-// fech data of users
+
+
+
+// Protect the deleteUser route
+
+// update user
+export const updateUser = async (req, res) => {
+  try {
+    const { first_name, last_name, email, role, phone_number } = req.body;
+    const sql = "UPDATE employees SET first_name = ?, last_name = ?, email = ?, role = ?, phone_number = ? WHERE employee_id = ?";
+
+    db.query(sql, [first_name, last_name, email, role, phone_number, req.params.id], (err, result) => {
+      if (err) return res.status(500).json({ error: err.message }); 
+      res.json({ message: "Employee updated successfully!" });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+  //fetch user data
+  
+    
 export const fetchData = (req, res) => {
   const sql = "SELECT * FROM employees";  
 
@@ -75,6 +85,21 @@ export const fetchData = (req, res) => {
     res.json(results); // Send response to client
   });
 };
+//delate by email
+export const deleteUser = async (req, res) => {
+  const email = req.params.email;
+  const sql = "DELETE FROM employees WHERE email = ?";
+
+  db.query(sql, [email], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message }); 
+    res.json({ message: "Employee deleted successfully!" });
+  });
+};
+
+
+
+
+
  
 
 // Logout Employee

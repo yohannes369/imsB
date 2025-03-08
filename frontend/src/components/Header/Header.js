@@ -1,4 +1,6 @@
 import React from 'react';
+// import Log
+// import Login from '../pages/Log';
 import { Link } from 'react-router-dom';
 
 function Header() {
@@ -14,7 +16,7 @@ function Header() {
                 <div className="office-hour">INVENTORY MANAGMET SYSTEM</div>
               </div>
               <div className="right-column">
-                <div className="phone-number"> <strong>1800 456 7890</strong></div>
+                <div className="phone-number"> <strong>254 456 7890</strong></div>
               </div>
             </div>
           </div>
@@ -41,7 +43,7 @@ function Header() {
                 </div>
                 <div className="search-btn"></div>
                 <div className="link-btn">
-                  <Link to="/login" className="theme-btn btn-style-one">Login</Link>
+                  <Link to="/Log" className="theme-btn btn-style-one">Login</Link>
                 </div>
               </div>
             </div>

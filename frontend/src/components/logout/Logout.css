@@ -1,0 +1,90 @@
+/* Styles for the Logout button */
+button {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #c53030; /* Slightly darker red for hover effect */
+  }
+  
+  /* Modal overlay - darkened background */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensures it overlays over other content */
+  }
+  
+  /* Modal container - centered white box */
+  .modal-container {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  /* Modal title */
+  .modal-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Button container - arranged horizontally */
+  .modal-buttons {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  /* Button styles for confirm (Yes) and cancel (No) */
+  .confirm-btn,
+  .cancel-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .confirm-btn {
+    background-color: #4caf50; /* Green for 'Yes' button */
+    color: white;
+  }
+  
+  .confirm-btn:hover {
+    background-color: #45a049; /* Slightly darker green */
+  }
+  
+  .cancel-btn {
+    background-color: #f44336; /* Red for 'No' button */
+    color: white;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #e53935; /* Slightly darker red */
+  }
+  
+  /* Modal fade-in animation */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
