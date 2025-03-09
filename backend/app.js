@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import db from "./config/db.js";
-import router from "./Routes/authRoute.js"; // Import authRoutes
+import router from "./Routes/authRoute.js";
+// import itemRouter from  "./Routes/itemsRoute.js"; // Import authRoutes
 import jwt from "jsonwebtoken";
 dotenv.config(); // Ensure this line is present
 
@@ -31,6 +32,7 @@ db.getConnection((err) => {
 
 // Use auth routes
 app.use("/api/auth", router);
+// app.use("/api", router);   
 
 app.listen(5000, () => {
   console.log("Server started on port 5000");

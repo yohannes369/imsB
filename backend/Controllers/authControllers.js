@@ -55,21 +55,7 @@ export const login = async (req, res) => {
 
 // Protect the deleteUser route
 
-// update user
-export const updateUser = async (req, res) => {
-  try {
-    const { first_name, last_name, email, role, phone_number } = req.body;
-    const sql = "UPDATE employees SET first_name = ?, last_name = ?, email = ?, role = ?, phone_number = ? WHERE employee_id = ?";
 
-    db.query(sql, [first_name, last_name, email, role, phone_number, req.params.id], (err, result) => {
-      if (err) return res.status(500).json({ error: err.message }); 
-      res.json({ message: "Employee updated successfully!" });
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
   //fetch user data
   
     
@@ -96,13 +82,45 @@ export const deleteUser = async (req, res) => {
   });
 };
 
+// update user by email
+export const updateUser = async (req, res) => {
+  try {
+    const { first_name, last_name, role, phone_number } = req.body;
+    const email = req.params.email;
 
+    // Check if any fields are provided for update
+    if (!first_name && !last_name && !role && !phone_number) {
+      return res.status(400).json({ error: "No update fields provided" });
+    }
 
+    const sql = `
+      UPDATE employees 
+      SET first_name = ?, last_name = ?, role = ?, phone_number = ?
+      WHERE email = ?
+    `;
 
+    db.query(sql, [first_name, last_name, role, phone_number, email], (err, result) => {
+      if (err) return res.status(500).json({ error: err.message });
 
- 
+      // Check if any row was affected (if user exists)
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "Employee not found" });
+      }
+
+      res.json({ message: "Employee updated successfully!" });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 // Logout Employee
 export const logout = async (req, res) => {
   res.json({ message: "Logout successful!" });
 };  
+
+// item conteroler 
+
+
+

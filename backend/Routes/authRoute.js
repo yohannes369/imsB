@@ -29,13 +29,14 @@ router.get("/fetchData", fetchData);
 //
 
 //route by email
-router.delete("/deleteUser/:email", authenticate, deleteUser);
-
-
+router.delete("/deleteUser/:id", authenticate, deleteUser);
 
 //update route
-router.put("/update/:id", authenticate, updateUser);
+router.put("/updateUser/:email", authenticate, updateUser);
 // Logout route
 router.post("/logout", authenticate, logout);
+
+
+
 
 export default router;
