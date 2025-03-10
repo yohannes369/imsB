@@ -23,8 +23,8 @@ export const addItem = async (req, res) => {
   }
 };
 
-//fetch all items
-export const getItems = async (req, res) => {
+// fetch all item
+export const getItem = async (req, res) => {
   try {
     const sql = "SELECT * FROM items";
     db.query(sql, (err, result) => {
@@ -36,6 +36,7 @@ export const getItems = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
  //update item by Manager
  export const updateItem = async (req, res) => {
   const { Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status } = req.body;

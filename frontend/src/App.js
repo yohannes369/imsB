@@ -53,9 +53,14 @@ import UpdateUser from "./components/Admin/edit";
 import AddUser from "./components/Admin/add";
 import Admindashboard from "./components/pages/admin";
 import Managerdashboard from "./components/pages/manager";
+import Cl from "./components/clerk/cl";
+
+
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import AdminAuthorize from "./middleware/auth"; // Import AdminAuthorize
+ 
+
 import "./assets/template_assets/css/bootstrap.css";
 import "./assets/template_assets/css/style.css";
 import "./assets/template_assets/css/responsive.css";
@@ -80,6 +85,8 @@ const App = () => {
                 <Navigate to="/admin" /> // Redirect Admin to Admin Dashboard
               ) : role === "Manager" ? (
                 <Navigate to="/manager" /> // Redirect Manager to Manager Dashboard
+              ) : role === "Clerk" ? (
+                <Navigate to="/cl" />
               ) : (
                 <div>Unauthorized</div> // Unauthorized if no valid role
               )
@@ -103,10 +110,18 @@ const App = () => {
               </AdminAuthorize>
             }
           />
+         
+
+       
+
+
           <Route path="/admin" element={<Admindashboard />} /> {/* Admin Dashboard */}
 
           {/* Manager Route */}
           <Route path="/manager" element={<Managerdashboard />} /> {/* Manager Dashboard */}
+
+          {/* Clerk Route */}
+          <Route path="/cl" element={<Cl />} />
 
           {/* You can add more routes here for other roles or features */}
           <Route path="/user" element={<div>User Dashboard</div>} /> {/* User Dashboard */}
