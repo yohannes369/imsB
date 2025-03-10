@@ -29,7 +29,7 @@ router.get("/fetchData", fetchData);
 //
 
 //route by email
-router.delete("/deleteUser/:id", authenticate, deleteUser);
+router.delete("/deleteUser/:email", authenticate, deleteUser);
 
 //update route
 router.put("/updateUser/:email", authenticate, updateUser);

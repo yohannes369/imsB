@@ -92,119 +92,107 @@
 
 // export default ItemList;
 
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { FaTrash, FaEdit } from 'react-icons/fa'; // Import icons
-import './itemlist.css'; // Import the CSS file for styling
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { FaTrash, FaEdit, FaPlus } from "react-icons/fa"; // Import the "Add" icon
+import { useNavigate } from "react-router-dom";
+import "./itemlist.css";
 
 const ItemList = ({ refresh }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedItemCode, setSelectedItemCode] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    let isMounted = true; // To prevent state updates after unmounting
     const fetchItems = async () => {
       setLoading(true);
-      setError(null); // Reset error before fetching
+      setError(null);
       try {
-        const response = await axios.get('http://localhost:5000/api/items/getItem');
-        if (isMounted) {
-          setItems(response.data);
-        }
+        const response = await axios.get("http://localhost:5000/api/items/getItem");
+        setItems(response.data);
       } catch (err) {
-        if (isMounted) {
-          setError(err.response?.data || "Failed to fetch items.");
-        }
+        setError(err.response?.data || "Failed to fetch items.");
       } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     };
 
     fetchItems();
-
-    return () => {
-      isMounted = false; // Cleanup function to avoid state update on unmounted component
-    };
-  }, [refresh]);
+  }, [refresh]); // Re-fetch data when the 'refresh' prop changes
 
   const deleteItem = async (Item_Code) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
-    if (!confirmDelete) return; // Stop execution if user cancels
+    if (!window.confirm("Are you sure you want to delete this item?")) return;
 
     try {
       await axios.delete(`http://localhost:5000/api/items/deleteItem/${Item_Code}`);
-      setItems(prevItems => prevItems.filter(item => item.Item_Code !== Item_Code));
+      setItems((prevItems) => prevItems.filter((item) => item.Item_Code !== Item_Code));
     } catch (err) {
-      console.error('Error deleting item:', err);
-      alert("Failed to delete item. Please try again.");
+      alert("Failed to delete item.");
     }
   };
 
-  const editItem = (Item_Code) => {
-    alert(`Edit functionality for item ${Item_Code} is not implemented yet.`);
-    // You can redirect to an edit page or open a modal here
+  const navigateToAddItem = () => {
+    navigate("/addItem"); // Navigate to Add Item page
   };
 
-  const handleItemClick = (Item_Code) => {
-    setSelectedItemCode(Item_Code);
-  };
-
-  if (loading) {
-    return <div className="loading">Loading items...</div>;
-  }
-
-  if (error) {
-    return <div className="error">Error: {error}</div>;
-  }
+  if (loading) return <div>Loading items...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="item-list-container">
       <h2>Items List</h2>
-      {items.length === 0 ? (
-        <p>No items found</p>
-      ) : (
-        <table className="item-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Quantity</th>
-              <th>Model</th>
-              <th>Serial</th>
-              <th>Category</th>
-              <th>Registration Date</th>
-              <th>Status</th>
-              <th>Actions</th>
+      <div className="add-item-container">
+        <button className="add-item-button" onClick={navigateToAddItem}>
+          <FaPlus /> Add Item
+        </button>
+      </div>
+      <table className="item-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Quantity</th>
+            <th>Model</th>
+            <th>Serial</th>
+            <th>Category</th>
+            <th>Registration Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((item) => (
+            <tr key={item.Item_Code}>
+              <td>{item.Item_Code}</td>
+              <td>{item.Item_Name}</td>
+              <td>{item.Item_Type}</td>
+              <td>{item.Quantity}</td>
+              <td>{item.Item_Model}</td>
+              <td>{item.Item_Serial}</td>
+              <td>{item.Item_Category}</td>
+              <td>{new Date(item.Reg_Date).toLocaleDateString()}</td>
+              <td>{item.Status}</td>
+              <td className="action-buttons">
+                <FaEdit
+                  className="edit-icon"
+                  onClick={() =>
+                    navigate(`/Editform/${item.Item_Code}`, { state: { item } })
+                  }
+                />
+                <FaTrash
+                  className="delete-icon"
+                  onClick={() => deleteItem(item.Item_Code)}
+                />
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {items.map((item) => (
-              <tr key={item.Item_Code} onClick={() => handleItemClick(item.Item_Code)}>
-                <td>{item.Item_Code}</td>
-                <td>{item.Item_Name}</td>
-                <td>{item.Item_Type}</td>
-                <td>{item.Quantity}</td>
-                <td>{item.Item_Model}</td>
-                <td>{item.Item_Serial}</td>
-                <td>{item.Item_Category}</td>
-                <td>{new Date(item.Reg_Date).toLocaleDateString()}</td>
-                <td>{item.Status}</td>
-                <td className="action-buttons">
-                  <FaEdit className="edit-icon" onClick={(e) => { e.stopPropagation(); editItem(item.Item_Code); }} />
-                  <FaTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); deleteItem(item.Item_Code); }} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
 export default ItemList;
+

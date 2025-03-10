@@ -46,6 +46,11 @@
 
 // export default App;
 
+
+
+
+
+
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/pages/Log";
@@ -55,7 +60,9 @@ import Admindashboard from "./components/pages/admin";
 import Managerdashboard from "./components/pages/manager";
 import Cl from "./components/clerk/cl";
 
-
+//add item
+import AddItem from "./components/clerk/additem";
+ import EditForm from "./components/clerk/Editform";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import AdminAuthorize from "./middleware/auth"; // Import AdminAuthorize
@@ -110,7 +117,25 @@ const App = () => {
               </AdminAuthorize>
             }
           />
-         
+
+
+            <Route
+            path="/additem"
+            element={
+              <AdminAuthorize>
+                <AddItem /> {/* add item by  */}
+              </AdminAuthorize>
+            }
+          />
+
+          <Route
+            path="/editform/:Item_Code"
+            element={
+              <AdminAuthorize>
+                <EditForm /> {/* edit item by  */}
+              </AdminAuthorize>
+            }
+          />
 
        
 
@@ -133,6 +158,7 @@ const App = () => {
 };
 
 export default App;
+
 
 
 
