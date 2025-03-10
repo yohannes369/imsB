@@ -1,0 +1,62 @@
+/* Loader Background */
+.wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999; /* Ensure it's on top */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 1.5s ease-in-out;
+}
+
+/* Loader Container */
+.loader {
+    text-align: center;
+    color: white;
+}
+
+/* Progress Bar Wrapper */
+.progress-bar-wrapper {
+    width: 200px;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+/* Progress Bar Animation */
+.progress-bar {
+    height: 100%;
+    background-color: #4caf50; /* Green */
+    width: 0%; /* Start from 0% */
+    transition: width 1s linear; /* Smooth transition */
+}
+
+/* Button Spinner Animation */
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+}
+
+/* Spinner Animation */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Disabled Button Styling */
+button.loading {
+    background: gray;
+    cursor: not-allowed;
+}
