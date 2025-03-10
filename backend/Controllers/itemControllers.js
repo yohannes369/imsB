@@ -24,18 +24,33 @@ export const addItem = async (req, res) => {
 };
 
 // fetch all item
-export const getItem = async (req, res) => {
+// export const getItem =  (req, res) => {
+//   try {
+//     const sql = "SELECT * FROM items";
+//     db.query(sql, (err, result) => {
+//       if (err) return res.status(500).json({ error: err.message });
+//     console.log(result);
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
+export const getItem = (req, res) => {
   try {
     const sql = "SELECT * FROM items";
     db.query(sql, (err, result) => {
-      if (err) return res.status(500).json({ error: err.message });
-    console.log(result);
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.status(200).json(result); // Send data to the browser
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
  //update item by Manager
  export const updateItem = async (req, res) => {
