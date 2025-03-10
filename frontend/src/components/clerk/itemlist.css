@@ -1,0 +1,76 @@
+/* Item List Container */
+.item-list-container {
+    max-width: 95%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Table Styling */
+  .item-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .item-table th, .item-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .item-table th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  /* Row hover effect */
+  .item-table tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+  
+  /* Action buttons (Icons) */
+  .action-buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  /* Edit Icon */
+  .edit-icon {
+    color: #FFC107;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .edit-icon:hover {
+    transform: scale(1.2);
+    color: #ff9800;
+  }
+  
+  /* Delete Icon */
+  .delete-icon {
+    color: red;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .delete-icon:hover {
+    transform: scale(1.2);
+    color: darkred;
+  }
+  
+  /* Loading and Error Styles */
+  .loading, .error {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+    color: red;
+  }
+  
