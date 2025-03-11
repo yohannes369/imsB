@@ -20,6 +20,6 @@ const router = express.Router();
 router.post('/addItem', addItem);
 // Route to get all items
 router.get('/getItem', getItem);
-router.delete('/deleteItem/:Item_Code', deleteItem);
-router.put('/updateItem/:Item_Code', updateItem);
+router.delete('/deleteItem/:id', deleteItem);
+router.put('/updateItem/:id', updateItem);
 export default router;

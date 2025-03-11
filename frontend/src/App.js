@@ -59,9 +59,9 @@ import AddUser from "./components/Admin/add";
 import Admindashboard from "./components/pages/admin";
 import Managerdashboard from "./components/pages/manager";
 import Cl from "./components/clerk/cl";
-
+import './styles/tailwind.css';
 //add item
-import AddItem from "./components/clerk/additem";
+import AddItem from "./components/clerk/f";
  import EditForm from "./components/clerk/Editform";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -101,14 +101,18 @@ const App = () => {
           />
           
           {/* Admin Routes */}
-          <Route
-            path="/edit/:email"
-            element={
-              <AdminAuthorize> 
-                <UpdateUser /> {/* Admin can edit user */}
-              </AdminAuthorize>
-            }
-          />
+       
+
+
+       <Route  
+          path="/edit"
+          element={
+            <AdminAuthorize>
+              <UpdateUser />
+            </AdminAuthorize>
+             }
+             />
+
           <Route
             path="/add"
             element={
@@ -129,11 +133,12 @@ const App = () => {
           />
 
           <Route
-            path="/editform/:Item_Code"
+            path="/editform/:id"
             element={
               <AdminAuthorize>
                 <EditForm /> {/* edit item by  */}
               </AdminAuthorize>
+              
             }
           />
 
@@ -151,6 +156,7 @@ const App = () => {
           {/* You can add more routes here for other roles or features */}
           <Route path="/user" element={<div>User Dashboard</div>} /> {/* User Dashboard */}
         </Routes>
+        
         <Footer />
       </div>
     </Router>

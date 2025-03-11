@@ -1,169 +1,173 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const EditForm = () => {
-  const location = useLocation();
+  const { id } = useParams(); // Get item ID from URL
   const navigate = useNavigate();
-  
-  // Get the item passed from the previous page (via the state)
-  const item = location.state?.item;
 
-  // Define the initial form data
-  const initialFormData = {
-    Item_Code: '',  // Default empty value
-    Item_Name: '',
-    Item_Type: '',
-    Quantity: '',
-    Item_Model: '',
-    Item_Serial: '',
-    Item_Category: '',
-    Status: 'Active',
-    Reg_Date: '', // Add a default value for Reg_Date
-  };
+  const [formData, setFormData] = useState({
+    Item_Code: "",
+    Item_Name: "",
+    Item_Type: "",
+    Quantity: "",
+    Item_Model: "",
+    Item_Serial: "",
+    Item_Category: "",
+    Reg_Date: "",
+    Status: "",
+  });
 
-  // Set the form data with item if it exists
-  const [formData, setFormData] = useState(item ? {
-    Item_Code: item.Item_Code,
-    Item_Name: item.Item_Name,
-    Item_Type: item.Item_Type,
-    Quantity: item.Quantity,
-    Item_Model: item.Item_Model || '',
-    Item_Serial: item.Item_Serial || '',
-    Item_Category: item.Item_Category || '',
-    Status: item.Status || 'Active',
-    Reg_Date: item.Reg_Date || '',  // Ensure Reg_Date is included
-  } : initialFormData);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Handle form field changes
+  // Fetch item data when the component loads
+  useEffect(() => {
+    if (!id) {
+      setError("Error: Item ID is missing.");
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+
+    axios
+      .get(`localhost:5000/api/items/${id}`)
+      .then((response) => {
+        if (response.data && response.data.id) {
+          setFormData(response.data);
+        } else {
+          setError("Error: Item not found.");
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Fetch error:", err);
+        setError("Failed to fetch item.");
+        setLoading(false);
+      });
+  }, [id]);
+
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Submit the form to update the existing item
-  const handleSubmit = async (e) => {
+  // Handle form submission
+  const handleSubmit = (e) => {
     e.preventDefault();
-  
-    // Validate if essential fields are present
-    if (!formData.Item_Code || !formData.Item_Name || !formData.Item_Type || !formData.Quantity || !formData.Reg_Date) {
-      alert("Missing required fields.");
+
+    if (!id) {
+      console.error("Error: Item ID is missing.");
       return;
     }
-  
-    console.log('Submitting item data:', formData);
-  
-    try {
-      // Include Reg_Date in the payload when submitting the form
-      await axios.put(`http://localhost:5000/api/items/updateItem/${formData.Item_Code}`, formData);
-      navigate('/'); // Navigate back to the item list after successful update
-    } catch (error) {
-      console.error("Error updating item:", error);
-      alert('Failed to update item.');
-    }
+
+    // Send PUT request to update the item
+    axios
+      .put(`localhost:5000/api/items/${id}`, formData)
+      .then((response) => {
+        console.log("Item updated successfully", response.data);
+        navigate("/items"); // Redirect after update
+      })
+      .catch((err) => {
+        console.error("Update failed:", err);
+        setError("Failed to update item.");
+      });
   };
 
+  // Show loading or error messages
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
+
   return (
-    <div className="edit-form">
-      <h2>Edit Item</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Name:</label>
-          <input
-            type="text"
-            name="Item_Name"
-            value={formData.Item_Name}
-            onChange={handleChange}
-            required
-          />
-        </div>
+    <form onSubmit={handleSubmit}>
+      <label>Item Code:</label>
+      <input
+        type="text"
+        name="Item_Code"
+        value={formData.Item_Code}
+        onChange={handleChange}
+        required
+      />
 
-        <div className="form-group">
-          <label>Type:</label>
-          <input
-            type="text"
-            name="Item_Type"
-            value={formData.Item_Type}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      <label>Item Name:</label>
+      <input
+        type="text"
+        name="Item_Name"
+        value={formData.Item_Name}
+        onChange={handleChange}
+        required
+      />
 
-        <div className="form-group">
-          <label>Quantity:</label>
-          <input
-            type="number"
-            name="Quantity"
-            value={formData.Quantity}
-            onChange={handleChange}
-            required
-            min="1"
-          />
-        </div>
+      <label>Item Type:</label>
+      <input
+        type="text"
+        name="Item_Type"
+        value={formData.Item_Type}
+        onChange={handleChange}
+        required
+      />
 
-        <div className="form-group">
-          <label>Model:</label>
-          <input
-            type="text"
-            name="Item_Model"
-            value={formData.Item_Model}
-            onChange={handleChange}
-          />
-        </div>
+      <label>Quantity:</label>
+      <input
+        type="number"
+        name="Quantity"
+        value={formData.Quantity}
+        onChange={handleChange}
+        required
+      />
 
-        <div className="form-group">
-          <label>Serial:</label>
-          <input
-            type="text"
-            name="Item_Serial"
-            value={formData.Item_Serial}
-            onChange={handleChange}
-          />
-        </div>
+      <label>Item Model:</label>
+      <input
+        type="text"
+        name="Item_Model"
+        value={formData.Item_Model}
+        onChange={handleChange}
+        required
+      />
 
-        <div className="form-group">
-          <label>Category:</label>
-          <input
-            type="text"
-            name="Item_Category"
-            value={formData.Item_Category}
-            onChange={handleChange}
-          />
-        </div>
+      <label>Item Serial:</label>
+      <input
+        type="text"
+        name="Item_Serial"
+        value={formData.Item_Serial}
+        onChange={handleChange}
+        required
+      />
 
-        <div className="form-group">
-          <label>Status:</label>
-          <select
-            name="Status"
-            value={formData.Status}
-            onChange={handleChange}
-            required
-          >
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-            <option value="Pending">Pending</option>
-          </select>
-        </div>
+      <label>Item Category:</label>
+      <input
+        type="text"
+        name="Item_Category"
+        value={formData.Item_Category}
+        onChange={handleChange}
+        required
+      />
 
-        <div className="form-group">
-          <label>Registration Date:</label>
-          <input
-            type="date"
-            name="Reg_Date"
-            value={formData.Reg_Date}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      <label>Registration Date:</label>
+      <input
+        type="datetime-local"
+        name="Reg_Date"
+        value={formData.Reg_Date}
+        onChange={handleChange}
+        required
+      />
 
-        <div className="form-actions">
-          <button type="submit">Save Changes</button>
-          <button type="button" onClick={() => navigate('/')}>
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
+      <label>Status:</label>
+      <select
+        name="Status"
+        value={formData.Status}
+        onChange={handleChange}
+        required
+      >
+        <option value="">Select Status</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+
+      <button type="submit">Update Item</button>
+    </form>
   );
 };
 

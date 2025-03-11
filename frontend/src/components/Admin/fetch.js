@@ -262,7 +262,7 @@ const FetchDataComponent = () => {
                 <td>
                   <Link
                     to={{
-                      pathname: `/edit`,
+                      pathname: `/`,
                       state: { email: user.email }, // Pass email as state to the edit page
                     }}
                   >
