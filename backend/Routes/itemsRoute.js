@@ -21,5 +21,5 @@ router.post('/addItem', addItem);
 // Route to get all items
 router.get('/getItem', getItem);
 router.delete('/deleteItem/:id', deleteItem);
-router.put('/updateItem/:id', updateItem);
+router.get('/updateItem/:id', updateItem);
 export default router;

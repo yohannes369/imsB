@@ -2,11 +2,11 @@ import React from "react";
 import axios from "axios";
 
 const DeleteUser = ({ match, history }) => {
-  const { email } = match.params; // Get the email from URL params
+  const { id } = match.params; // Get the email from URL params
 
   const deleteUser = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/auth/deleteUser/${email}`);
+      await axios.delete(`http://localhost:5000/api/auth/deleteUser/${id}`);
       history.push("/fetch"); // Navigate back to FetchDataComponent
     } catch (error) {
       console.error("Error deleting user:", error);

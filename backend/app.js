@@ -60,7 +60,7 @@ app.use(
 );
 
 app.use(express.json());
-
+app.set("db", db);
 // Check database connection
 db.getConnection((err) => {
   if (err) {
@@ -71,6 +71,7 @@ db.getConnection((err) => {
 });
 
 // Use the routes with correct prefixes
+
 app.use("/api/auth", authRoute);
 app.use("/api/items", itemsRoute); // Correct naming
 
