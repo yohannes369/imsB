@@ -261,9 +261,6 @@ export const deleteUser = async (req, res) => {
 };
 
 // ✅ Logout Employee
-export const logout = async (req, res) => {
-  res.json({ message: "Logout successful!" });
-};
 
 
 // ✅ Fetch Employee by ID (Fixes 404 Error)
@@ -302,6 +299,9 @@ export const updateUser = async (req, res) => {
   }
 };
 
+export const logout = async (req, res) => {
+  res.json({ message: "Logout successful!" });
+};
 
 
 // ✅ Delete Employee by Email

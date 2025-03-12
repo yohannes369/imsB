@@ -68,7 +68,7 @@ const UpdateUser = () => {
     try {
       const response = await axios.post(`http://localhost:5000/api/auth/updateUser/${id}`, formData);
       setMessage(response.data.message || "User updated successfully!");
-      setTimeout(() => navigate("/edit"), 2000);
+      setTimeout(() => navigate("/admin"), 2000);
     } catch (err) {
       console.error("Update error:", err);
       setError(err.response?.data?.error || "Something went wrong during update.");
@@ -181,7 +181,7 @@ const UpdateUser = () => {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/edit")}
+              onClick={() => navigate("/admin")}
               className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
             >
               Cancel
