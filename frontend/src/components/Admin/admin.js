@@ -27,15 +27,23 @@
 // export default AdminDashboard;
 
 import React from "react";
-import Logout from "../logout/Logout"; // Importing the Logout component
-import FetchDataComponent from "../Admin/fetch";
-const AdminDashboard = () => {
+import Logout from "../logout/Logout";
+import FetchDataComponent from "./fetch";
+
+const AdminDashboard = ({ onLogout }) => {
   return (
-    <div className="h-screen flex flex-col justify-center items-center bg-gray-100">
-      <h1 className="text-3xl font-bold mb-4">Admin Dashboard</h1>
-      <FetchDataComponent />
-   
-      <Logout />
+    <div className="min-h-screen flex flex-col bg-gradient-to-tr from-purple-100 via-teal-100 to-blue-100 p-6 animate-bg-shift">
+      <div className="max-w-6xl mx-auto flex-grow flex flex-col relative">
+        <div className="absolute top-4 right-4">
+          <Logout onLogout={onLogout} />
+        </div>
+        <h1 className="text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-teal-500 to-blue-600 mb-8">
+          Admin Dashboard
+        </h1>
+        <div className="w-full bg-white shadow-2xl rounded-3xl p-6 flex-grow">
+          <FetchDataComponent />
+        </div>
+      </div>
     </div>
   );
 };

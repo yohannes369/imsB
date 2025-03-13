@@ -13,7 +13,7 @@
 // import express from "express";
 
 // import { register, login, logout,deleteUser,updateUser,fetchData } from "../Controllers/authControllers.js";
-// import { authenticate } from "../Middleware/authMiddleware.js";
+
 
 // const router = express.Router();
 
@@ -43,6 +43,7 @@
 
 // export default router;
 import express from "express";
+// import { authenticate } from "../Middleware/authMiddleware.js";
 import { register, login, fetchData,getUserById , updateUser, deleteUser, logout } from "../Controllers/authControllers.js";
 
 const router = express.Router();

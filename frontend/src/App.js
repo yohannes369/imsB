@@ -223,127 +223,144 @@
 
 // export default App;
 
+
+
+
+
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Login from "./components/pages/Log";
-import UpdateUser from "./components/Admin/edit"; // Assuming this is your EditUser component
+import UpdateUser from "./components/Admin/edit";
 import AddUser from "./components/Admin/add";
-import FetchDataComponent from "./components/Admin/fetch"; // Added for /admin route
-import ManagerDashboard from "./components/pages/manager"; // Renamed for clarity
-import ClerkDashboard from "./components/clerk/cl"; // Renamed for clarity
+import AdminDashboard from "./components/Admin/admin";
+import ManagerDashboard from "./components/pages/manager";
+import Cl from "./components/clerk/cl";
 import AddItem from "./components/clerk/f";
 import EditForm from "./components/clerk/Editform";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import AdminAuthorize from "./middleware/auth"; // Middleware for admin routes
 import "./styles/tailwind.css";
 import "./assets/template_assets/css/bootstrap.css";
 import "./assets/template_assets/css/style.css";
 import "./assets/template_assets/css/responsive.css";
 import "./assets/template_assets/css/color.css";
 import "./assets/styles/custom.css";
+import Contact from "./components/pages/about";
+const Layout = ({ role, handleLogout, children }) => {
+  const location = useLocation();
+  return (
+    <>
+      {location.pathname === "/" && !role && <Header role={role} handleLogout={handleLogout} />}
+      {children}
+      <Footer />
+    </>
+  );
+};
 
 const App = () => {
-  const [role, setRole] = useState(localStorage.getItem("role") || null); // Persist role in localStorage
+  const [role, setRole] = useState(null);
 
-  // Update role in localStorage when it changes
-  const handleSetRole = (newRole) => {
-    setRole(newRole);
-    if (newRole) {
-      localStorage.setItem("role", newRole);
-    } else {
-      localStorage.removeItem("role");
-    }
+  const handleLogout = () => {
+    setRole(null);
+    localStorage.removeItem("role"); // If using localStorage
+    // Add any additional logout logic (e.g., clear tokens)
   };
 
   return (
     <Router>
-      <div className="App min-h-screen bg-gradient-to-tr from-purple-100 via-teal-100 to-blue-100 animate-bg-shift">
-        <Header />
-        <main className="flex-grow p-6">
-          <Routes>
-            {/* Root Route (Login) */}
-            <Route
-              path="/"
-              element={
-                !role ? (
-                  <Login setRole={handleSetRole} /> // Pass custom setRole handler
+      <div className="App">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                {!role ? (
+                  <Login setRole={setRole} />
                 ) : role === "Admin" ? (
-                  <Navigate to="/admin" replace />
+                  <Navigate to="/admin" />
                 ) : role === "Manager" ? (
-                  <Navigate to="/manager" replace />
+                  <Navigate to="/manager" />
                 ) : role === "Clerk" ? (
-                  <Navigate to="/cl" replace />
+                  <Navigate to="/cl" />
                 ) : (
-                  <div className="text-center text-red-600 py-12 text-2xl font-bold animate-wobble">
-                    Unauthorized Role
-                  </div>
-                )
-              }
-            />
-
-            {/* Admin Routes */}
-            <Route
-              path="/admin"
-              element={
-                <AdminAuthorize role={role}>
-                  <FetchDataComponent />
-                </AdminAuthorize>
-              }
-            />
-            <Route
-              path="/add"
-              element={
-                <AdminAuthorize role={role}>
-                  <AddUser />
-                </AdminAuthorize>
-              }
-            />
-            <Route
-              path="/edit/:id"
-              element={
-                <AdminAuthorize role={role}>
-                  <UpdateUser />
-                </AdminAuthorize>
-              }
-            />
-
-            {/* Clerk Routes */}
-            <Route
-              path="/additem"
-              element={
-                <AdminAuthorize role={role}>
-                  <AddItem />
-                </AdminAuthorize>
-              }
-            />
-            <Route
-              path="/editform/:id"
-              element={
-                <AdminAuthorize role={role}>
-                  <EditForm />
-                </AdminAuthorize>
-              }
-            />
-
-            {/* Manager Route */}
-            <Route path="/manager" element={<ManagerDashboard />} />
-
-            {/* Clerk Route */}
-            <Route path="/cl" element={<ClerkDashboard />} />
-
-            {/* Fallback Route */}
-            {/* <Route
-              path="*"
-              element={
-                <div className="text-center text-gray-700 py-12 text-2xl font-bold animate-bounce-in">
-                  404 - Page Not Found
-                </div>
-              }
-            /> */}
-          </Routes>
-        </main>
-        <Footer />
+                  <div>Unauthorized</div>
+                )}
+              </Layout>
+            }
+          />
+          <Route
+            path="/edit/:id"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <UpdateUser />
+              </Layout>
+            }
+          />
+          <Route
+            path="/add"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <AddUser />
+              </Layout>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <AdminDashboard onLogout={handleLogout} />
+              </Layout>
+            }
+          />
+          <Route
+            path="/additem"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <AddItem />
+              </Layout>
+            }
+          />
+          <Route
+            path="/editform/:id"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <EditForm />
+              </Layout>
+            }
+          />
+          <Route
+            path="/cl"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <Cl />
+              </Layout>
+            }
+          />
+          <Route
+            path="/manager"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <ManagerDashboard />
+              </Layout>
+            }
+          />
+          <Route
+            path="/user"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <div>User Dashboard</div>
+              </Layout>
+            }
+          />
+             <Route
+            path="/about"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <Contact />
+              </Layout>
+            }
+          />
+        </Routes>
       </div>
     </Router>
   );
