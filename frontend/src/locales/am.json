@@ -1,0 +1,15 @@
+{
+  "home": "መነሻ",
+  "aboutUs": "ስለ እኛ",
+  "services": "አገልግሎቶች",
+  "contactUs": "አግኙን",
+  "welcome": "እንኳን ደህና መጣህ",
+  "logout": "ውጣ",
+  "login": "ግባ",
+  "bongaUniversityIMS": "ቦንጋ ዩኒቨርሲቲ የእቃ አያያዝ ስርዓት","email": "ኢሜይል",
+    "password": "የይለፍ ቃል",
+    "submit": "አስገባ",
+    "selectLanguage": "ቋንቋ ይምረጡ",
+    "continueWithGoogle": "በGoogle ይቀጥሉ",
+    "loginFailed": "መግቢያ አልተሳካም። እባክዎ ይሞክሩ።"
+}

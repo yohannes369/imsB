@@ -227,6 +227,187 @@
 
 
 
+// import React, { useState } from "react";
+// import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+// import Login from "./components/pages/Log";
+// import UpdateUser from "./components/Admin/edit";
+// import AddUser from "./components/Admin/add";
+// import AdminDashboard from "./components/Admin/admin";
+// import ManagerDashboard from "./components/pages/manager";
+// import Cl from "./components/clerk/cl";
+// import AddItem from "./components/clerk/f";
+// import EditForm from "./components/clerk/Editform";
+// import Header from "./components/Header/Header";
+// import Footer from "./components/Footer/Footer";
+// import "./styles/tailwind.css";
+// import "./assets/template_assets/css/bootstrap.css";
+// import "./assets/template_assets/css/style.css";
+// import "./assets/template_assets/css/responsive.css";
+// import "./assets/template_assets/css/color.css";
+// import "./assets/styles/custom.css";
+// import Contact from "./components/pages/about";
+
+
+// import Services from "./components/pages/services";
+// import Home from "./components/pages/home";
+// const Layout = ({ role, handleLogout, children }) => {
+//   const location = useLocation();
+//   return (
+//     <>
+//       {location.pathname === "/" && !role && <Header role={role} handleLogout={handleLogout} />}
+//       {children}
+//       <Footer />
+//     </>
+//   );
+// };
+
+// const App = () => {
+//   const [role, setRole] = useState(null);
+
+//   const handleLogout = () => {
+//     setRole(null);
+//     localStorage.removeItem("role"); // If using localStorage
+//     // Add any additional logout logic (e.g., clear tokens)
+//   };
+
+//   return (
+//     <Router>
+//       <div className="App">
+//         <Routes>
+//           <Route
+//             path="/"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 {!role ? (
+//                   <Login setRole={setRole} />
+//                 ) : role === "Admin" ? (
+//                   <Navigate to="/admin" />
+//                 ) : role === "Manager" ? (
+//                   <Navigate to="/manager" />
+//                 ) : role === "Clerk" ? (
+//                   <Navigate to="/cl" />
+//                 ) : (
+//                   <div>Unauthorized</div>
+//                 )}
+//               </Layout>
+//             }
+//           />
+//           <Route
+//             path="/edit/:id"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 <UpdateUser />
+//               </Layout>
+//             }
+//           />
+//           <Route
+//             path="/add"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 <AddUser />
+//               </Layout>
+//             }
+//           />
+//           <Route
+//             path="/admin"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 <AdminDashboard onLogout={handleLogout} />
+//               </Layout>
+//             }
+//           />
+//           <Route
+//             path="/additem"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 <AddItem />
+//               </Layout>
+//             }
+//           />
+//           <Route
+//             path="/editform/:id"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 <EditForm />
+//               </Layout>
+//             }
+//           />
+//           <Route
+//             path="/cl"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 <Cl />
+//               </Layout>
+//             }
+//           />
+//           <Route
+//             path="/manager"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 <ManagerDashboard />
+//               </Layout>
+//             }
+//           />
+//           <Route
+//             path="/user"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 <div>User Dashboard</div>
+//               </Layout>
+//             }
+//           />
+//              <Route
+//             path="/services"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 <Services />
+//               </Layout>
+//             }
+//           />
+//              <Route
+//             path="/contact"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 <Contact />
+//               </Layout>
+//             }
+//           />
+
+//            <Route
+//             path="/home"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 <Home />
+//               </Layout>
+//             }
+//           />
+//                     <Route
+//             path="/service"
+//             element={
+//               <Layout role={role} handleLogout={handleLogout}>
+//                 <Services />
+//               </Layout>
+//             }
+//           />
+//         </Routes>
+        
+//       </div>
+//     </Router>
+//   );
+// };
+
+// export default App;
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Login from "./components/pages/Log";
@@ -246,6 +427,10 @@ import "./assets/template_assets/css/responsive.css";
 import "./assets/template_assets/css/color.css";
 import "./assets/styles/custom.css";
 import Contact from "./components/pages/about";
+import Services from "./components/pages/services";
+import Home from "./components/pages/home";
+import "./i18n"; // Import i18n configuration
+
 const Layout = ({ role, handleLogout, children }) => {
   const location = useLocation();
   return (
@@ -352,11 +537,35 @@ const App = () => {
               </Layout>
             }
           />
-             <Route
-            path="/about"
+          <Route
+            path="/services"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <Services />
+              </Layout>
+            }
+          />
+          <Route
+            path="/contact"
             element={
               <Layout role={role} handleLogout={handleLogout}>
                 <Contact />
+              </Layout>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <Home />
+              </Layout>
+            }
+          />
+          <Route
+            path="/service"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <Services />
               </Layout>
             }
           />

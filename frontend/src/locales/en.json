@@ -1,0 +1,16 @@
+{
+    "home": "Home",
+    "aboutUs": "About Us",
+    "services": "Services",
+    "contactUs": "Contact Us",
+    "welcome": "Welcome",
+    "logout": "Logout",
+    "login": "Login",
+    "bongaUniversityIMS": "Bonga University Inventory Management System",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Submit",
+    "selectLanguage": "Select Language",
+    "continueWithGoogle": "Continue with Google",
+    "loginFailed": "Login failed. Please try again."
+  }
