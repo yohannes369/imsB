@@ -1,197 +1,26 @@
-//  // Assuming db is your database connection
-//  import db from "../config/db.js";
-// // Add a new item (Only Admin)
-// // export const addItem = async (req, res) => {
-// //   const { Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status } = req.body;
-
-// //   if (!Item_Code || !Item_Name || !Item_Type || !Quantity || !Item_Model || !Item_Serial || !Item_Category || !Reg_Date || !Status) {
-// //     return res.status(400).json({ error: "All fields are required" });
-// //   }
-
-// //   try {
-// //     const sql = `
-// //       INSERT INTO items (Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status)
-// //       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-// //     `;
-// //     db.query(sql, [Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status], (err, result) => {
-// //       if (err) return res.status(500).json({ error: err.message });
-// //       res.json({ message: "Item added successfully!" });
-// //     });
-// //   } catch (error) {
-// //     console.error(error);
-// //     res.status(500).json({ error: "Internal server error" });
-// //   }
-// // };
-
-// // // fetch all item
-// // // export const getItem =  (req, res) => {
-// // //   try {
-// // //     const sql = "SELECT * FROM items";
-// // //     db.query(sql, (err, result) => {
-// // //       if (err) return res.status(500).json({ error: err.message });
-// // //     console.log(result);
-// // //     });
-// // //   } catch (error) {
-// // //     console.error(error);
-// // //     res.status(500).json({ error: "Internal server error" });
-// // //   }
-// // // };
-// // export const getItem = (req, res) => {
-// //   try {
-// //     const sql = "SELECT * FROM items";
-// //     db.query(sql, (err, result) => {
-// //       if (err) {
-// //         return res.status(500).json({ error: err.message });
-// //       }
-// //       res.status(200).json(result); // Send data to the browser
-// //     });
-// //   } catch (error) {
-// //     console.error(error);
-// //     res.status(500).json({ error: "Internal server error" });
-// //   }
-// // };
-
-
-//  //update item by Manager
-// //  export const updateItem = async (req, res) => {
-// //   const { Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status } = req.body;
-// //   const itemCode = req.params.id;  
-
-// //   if (!Item_Code || !Item_Name || !Item_Type || !Quantity || !Item_Model || !Item_Serial || !Item_Category || !Reg_Date || !Status) {
-    
-// //     return res.status(400).json({ error: "All fields are required" });
-// //   }
-
-// //   try {
-// //     const sql = `
-// //       UPDATE items 
-// //       SET Item_Code = ?, Item_Name = ?, Item_Type = ?, Quantity = ?, Item_Model = ?, Item_Serial = ?, Item_Category = ?, Reg_Date = ?, Status = ?
-// //       WHERE id = ?
-// //     `;
-// //     db.query(sql, [Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status, itemCode], (err, result) => {
-// //       if (err) return res.status(500).json({ error: err.message });
-// //       res.json({ message: "Item updated successfully!" });
-// //     });
-// //   } catch (error) {
-// //     console.error(error);
-// //     res.status(500).json({ error: "Internal server error" });
-// //   }
-// //   }
-// //delete item by Manager
-
-
-
-// // ✅ Add a new item
-// export const addItem = async (req, res) => {
-//   const { Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status } = req.body;
-
-//   // ✅ Validate required fields
-//   if (!Item_Code || !Item_Name || !Item_Type || !Quantity || !Item_Model || !Item_Serial || !Item_Category || !Reg_Date || !Status) {
-//     return res.status(400).json({ error: "All fields are required" });
-//   }
-
-//   try {
-//     const sql = `
-//       INSERT INTO items (Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status)
-//       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-//     `;
-
-//     db.query(sql, [Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status], (err, result) => {
-//       if (err) return res.status(500).json({ error: err.message });
-
-//       res.status(201).json({ message: "Item added successfully!", itemId: result.insertId });
-//     });
-
-//   } catch (error) {
-//     console.error("Error adding item:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
-
-// // ✅ Fetch all items
-// export const getItem = (req, res) => {
-//   try {
-//     const sql = "SELECT * FROM items";
-
-//     db.query(sql, (err, result) => {
-//       if (err) return res.status(500).json({ error: err.message });
-
-//       res.status(200).json(result); // Send fetched data
-//     });
-
-//   } catch (error) {
-//     console.error("Error fetching items:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
-
-
-// export const deleteItem = async (req, res) => {
-//   const itemCode = req.params.id;
-//   const sql = "DELETE FROM items WHERE id = ?";
-
-//   db.query(sql, [itemCode], (err, result) => {   
-//     if (err) return res.status(500).json({ error: err.message });
-//     res.json({ message: "Item deleted successfully!" });
-//   });
-// };
-
-
-
-
-// export const updateItem = async (req, res) => {
-//   const { Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status } = req.body;
-//   const { id } = req.params;  // ✅ Get item ID from URL params
-
-//   // ✅ Validate required fields
-//   if (!Item_Code || !Item_Name || !Item_Type || !Quantity || !Item_Model || !Item_Serial || !Item_Category || !Reg_Date || !Status) {
-//     return res.status(400).json({ error: "All fields are required" });
-//   }
-
-//   try {
-//     const sql = `
-//       UPDATE items 
-//       SET Item_Code = ?, Item_Name = ?, Item_Type = ?, Quantity = ?, Item_Model = ?, Item_Serial = ?, Item_Category = ?, Reg_Date = ?, Status = ?
-//       WHERE id = ?
-//     `;
-
-//     db.query(sql, [Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status, id], (err, result) => {
-//       if (err) return res.status(500).json({ error: err.message });
-
-//       if (result.affectedRows === 0) {
-//         return res.status(404).json({ error: "Item not found" });
-//       }
-
-//       res.json({ message: "Item updated successfully!" });
-//     });
-
-//   } catch (error) {
-//     console.error("Error updating item:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
 import db from "../config/db.js";
 
 // ✅ Add a new item
 export const addItem = async (req, res) => {
-  const { Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status } = req.body;
+  const { item_code, item_name, item_type, quantity, item_model, item_serial, item_category, reg_date, status } = req.body;
 
-  // ✅ Validate required fields
-  if (!Item_Code || !Item_Name || !Item_Type || !Quantity || !Item_Model || !Item_Serial || !Item_Category || !Reg_Date || !Status) {
-    return res.status(400).json({ error: "All fields are required" });
+  if (!item_code || !item_name || !item_type || quantity === undefined) {
+    return res.status(400).json({ error: "Required fields: item_code, item_name, item_type, and quantity must be provided" });
   }
 
   try {
     const sql = `
-      INSERT INTO items (Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status)
+      INSERT INTO items (item_code, item_name, item_type, quantity, item_model, item_serial, item_category, reg_date, status)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-
-    const [result] = await db.query(sql, [Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status]);
+    const values = [item_code, item_name, item_type, quantity, item_model || null, item_serial || null, item_category || null, reg_date || null, status || 'Active'];
+    const [result] = await db.query(sql, values);
     res.status(201).json({ message: "Item added successfully!", itemId: result.insertId });
-
   } catch (error) {
     console.error("Error adding item:", error);
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({ error: "Item code or serial number already exists" });
+    }
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -201,58 +30,77 @@ export const getItem = async (req, res) => {
   try {
     const sql = "SELECT * FROM items";
     const [result] = await db.query(sql);
-    res.status(200).json(result); // Send fetched data
-
+    res.status(200).json(result);
   } catch (error) {
     console.error("Error fetching items:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
-// ✅ Delete item by ID
-export const deleteItem = async (req, res) => {
-  const itemCode = req.params.id;
-  const sql = "DELETE FROM items WHERE id = ?";
+// ✅ Fetch item by item_id
+export const getItemById = async (req, res) => {
+  const { item_id } = req.params;
 
   try {
-    const [result] = await db.query(sql, [itemCode]);
+    const sql = "SELECT * FROM items WHERE item_id = ?";
+    const [result] = await db.query(sql, [item_id]);
+    
+    if (result.length === 0) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+    res.status(200).json(result[0]);
+  } catch (error) {
+    console.error("Error fetching item:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// ✅ Delete item by item_id
+export const deleteItem = async (req, res) => {
+  const { item_id } = req.params;
+
+  try {
+    const sql = "DELETE FROM items WHERE item_id = ?";
+    const [result] = await db.query(sql, [item_id]);
+    
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: "Item not found" });
     }
     res.json({ message: "Item deleted successfully!" });
-
   } catch (error) {
     console.error("Error deleting item:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
-// ✅ Update item by ID
+// ✅ Update item by item_id
 export const updateItem = async (req, res) => {
-  const { Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status } = req.body;
-  const { id } = req.params;  // ✅ Get item ID from URL params
+  const { item_code, item_name, item_type, quantity, item_model, item_serial, item_category, reg_date, status } = req.body;
+  const { item_id } = req.params;
 
-  // ✅ Validate required fields
-  if (!Item_Code || !Item_Name || !Item_Type || !Quantity || !Item_Model || !Item_Serial || !Item_Category || !Reg_Date || !Status) {
-    return res.status(400).json({ error: "All fields are required" });
+  if (!item_code || !item_name || !item_type || quantity === undefined) {
+    return res.status(400).json({ error: "Required fields: item_code, item_name, item_type, and quantity must be provided" });
   }
 
   try {
     const sql = `
       UPDATE items 
-      SET Item_Code = ?, Item_Name = ?, Item_Type = ?, Quantity = ?, Item_Model = ?, Item_Serial = ?, Item_Category = ?, Reg_Date = ?, Status = ?
-      WHERE id = ?
+      SET item_code = ?, item_name = ?, item_type = ?, quantity = ?, item_model = ?, item_serial = ?, item_category = ?, reg_date = ?, status = ?
+      WHERE item_id = ?
     `;
-
-    const [result] = await db.query(sql, [Item_Code, Item_Name, Item_Type, Quantity, Item_Model, Item_Serial, Item_Category, Reg_Date, Status, id]);
+    const values = [item_code, item_name, item_type, quantity, item_model || null, item_serial || null, item_category || null, reg_date || null, status || 'Active', item_id];
+    const [result] = await db.query(sql, values);
+    
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: "Item not found" });
     }
-
+    console.log("Item updated:", result);
     res.json({ message: "Item updated successfully!" });
-
   } catch (error) {
     console.error("Error updating item:", error);
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({ error: "Item code or serial number already exists" });
+    }
     res.status(500).json({ error: "Internal server error" });
   }
 };

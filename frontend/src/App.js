@@ -415,6 +415,11 @@ import UpdateUser from "./components/Admin/edit";
 import AddUser from "./components/Admin/add";
 import AdminDashboard from "./components/Admin/admin";
 import ManagerDashboard from "./components/pages/manager";
+//IMPORT STAFF
+
+import Department from "./components/Department/departement";
+import Staff from "./components/Staff/staff";
+import RequestForm from "./components/Staff/RequestForm";
 import Cl from "./components/clerk/cl";
 import AddItem from "./components/clerk/f";
 import EditForm from "./components/clerk/Editform";
@@ -467,6 +472,16 @@ const App = () => {
                   <Navigate to="/manager" />
                 ) : role === "Clerk" ? (
                   <Navigate to="/cl" />
+                ) :role === "Staff" ? (
+                  (
+                  <Navigate to="/staff" />
+                )
+              
+              ) : role === "Department" ? (
+                <Navigate to="/departement" />
+
+
+
                 ) : (
                   <div>Unauthorized</div>
                 )}
@@ -567,6 +582,33 @@ const App = () => {
               <Layout role={role} handleLogout={handleLogout}>
                 <Services />
               </Layout>
+            }
+          />
+          <Route  
+            path="/staff"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <Staff />
+              </Layout>
+
+              
+         
+            }
+          />
+
+      
+          
+
+
+               <Route  
+            path="/departement"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <Department />
+              </Layout>
+
+              
+         
             }
           />
         </Routes>

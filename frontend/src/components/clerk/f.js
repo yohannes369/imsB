@@ -92,22 +92,26 @@
 // };
 
 // export default AddItem;
+
+
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AddItem = () => {
   const [item, setItem] = useState({
-    id: '',
-    Item_Code: '',
-    Item_Name: '',
-    Item_Type: '',
-    Quantity: '',
-    Item_Model: '',
-    Item_Serial: '',
-    Item_Category: '',
-    Reg_Date: '',
-    Status: ''
+    item_code: '',
+    item_name: '',
+    item_type: '',
+    quantity: '',
+    item_model: '',
+    item_serial: '',
+    item_category: '',
+    reg_date: '',
+    status: 'Active'
   });
   const [addedItem, setAddedItem] = useState(null);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -119,8 +123,21 @@ const AddItem = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+
+    // Basic validation
+    if (!item.item_code || !item.item_name || !item.item_type || item.quantity === '') {
+      setError('Please fill in all required fields: Item Code, Name, Type, and Quantity');
+      return;
+    }
+
+    if (item.quantity < 0) {
+      setError('Quantity cannot be negative');
+      return;
+    }
+
     try {
-      const response = await fetch('http://localhost:5000/api/items/addItem', {
+      const response = await fetch('http://localhost:5000/api/items/items', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -129,26 +146,28 @@ const AddItem = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add item');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to add item');
       }
 
       const data = await response.json();
       console.log('Item added:', data);
-      setAddedItem(data);
+      setAddedItem({ ...item, item_id: data.itemId });
       setItem({
-        id: '',
-        Item_Code: '',
-        Item_Name: '',
-        Item_Type: '',
-        Quantity: '',
-        Item_Model: '',
-        Item_Serial: '',
-        Item_Category: '',
-        Reg_Date: '',
-        Status: ''
+        item_code: '',
+        item_name: '',
+        item_type: '',
+        quantity: '',
+        item_model: '',
+        item_serial: '',
+        item_category: '',
+        reg_date: '',
+        status: 'Active'
       });
+      navigate('/'); // Redirect to item list after successful addition
     } catch (err) {
       console.error('Error adding item:', err);
+      setError(err.message);
     }
   };
 
@@ -157,27 +176,20 @@ const AddItem = () => {
       <div className="max-w-md w-full space-y-2">
         {/* Form */}
         <div className="bg-white border border-gray-300 rounded-lg px-4 py-4">
+          <h2 className="text-xl font-bold mb-4 text-teal-600">Add New Item</h2>
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
+              {error}
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
             <div>
-              <label className="font-bold text-sm">ID</label>
+              <label className="font-bold text-sm">Item Code *</label>
               <input
                 type="text"
-                name="id"
-                placeholder="ID"
-                value={item.id}
-                onChange={handleChange}
-                required
-                className="w-full border rounded-md py-1 px-2 mt-1 bg-white border-gray-400 placeholder-gray-500 text-black text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
-            </div>
-
-            <div>
-              <label className="font-bold text-sm">Item Code</label>
-              <input
-                type="text"
-                name="Item_Code"
+                name="item_code"
                 placeholder="Item Code"
-                value={item.Item_Code}
+                value={item.item_code}
                 onChange={handleChange}
                 required
                 className="w-full border rounded-md py-1 px-2 mt-1 bg-white border-gray-400 placeholder-gray-500 text-black text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -185,12 +197,12 @@ const AddItem = () => {
             </div>
 
             <div>
-              <label className="font-bold text-sm">Item Name</label>
+              <label className="font-bold text-sm">Item Name *</label>
               <input
                 type="text"
-                name="Item_Name"
+                name="item_name"
                 placeholder="Item Name"
-                value={item.Item_Name}
+                value={item.item_name}
                 onChange={handleChange}
                 required
                 className="w-full border rounded-md py-1 px-2 mt-1 bg-white border-gray-400 placeholder-gray-500 text-black text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -198,12 +210,12 @@ const AddItem = () => {
             </div>
 
             <div>
-              <label className="font-bold text-sm">Item Type</label>
+              <label className="font-bold text-sm">Item Type *</label>
               <input
                 type="text"
-                name="Item_Type"
+                name="item_type"
                 placeholder="Item Type"
-                value={item.Item_Type}
+                value={item.item_type}
                 onChange={handleChange}
                 required
                 className="w-full border rounded-md py-1 px-2 mt-1 bg-white border-gray-400 placeholder-gray-500 text-black text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -211,13 +223,14 @@ const AddItem = () => {
             </div>
 
             <div>
-              <label className="font-bold text-sm">Quantity</label>
+              <label className="font-bold text-sm">Quantity *</label>
               <input
                 type="number"
-                name="Quantity"
+                name="quantity"
                 placeholder="Quantity"
-                value={item.Quantity}
+                value={item.quantity}
                 onChange={handleChange}
+                min="0"
                 required
                 className="w-full border rounded-md py-1 px-2 mt-1 bg-white border-gray-400 placeholder-gray-500 text-black text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
@@ -227,11 +240,10 @@ const AddItem = () => {
               <label className="font-bold text-sm">Item Model</label>
               <input
                 type="text"
-                name="Item_Model"
+                name="item_model"
                 placeholder="Item Model"
-                value={item.Item_Model}
+                value={item.item_model}
                 onChange={handleChange}
-                required
                 className="w-full border rounded-md py-1 px-2 mt-1 bg-white border-gray-400 placeholder-gray-500 text-black text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
@@ -240,11 +252,10 @@ const AddItem = () => {
               <label className="font-bold text-sm">Item Serial</label>
               <input
                 type="text"
-                name="Item_Serial"
+                name="item_serial"
                 placeholder="Item Serial"
-                value={item.Item_Serial}
+                value={item.item_serial}
                 onChange={handleChange}
-                required
                 className="w-full border rounded-md py-1 px-2 mt-1 bg-white border-gray-400 placeholder-gray-500 text-black text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
@@ -253,38 +264,36 @@ const AddItem = () => {
               <label className="font-bold text-sm">Item Category</label>
               <input
                 type="text"
-                name="Item_Category"
+                name="item_category"
                 placeholder="Item Category"
-                value={item.Item_Category}
+                value={item.item_category}
                 onChange={handleChange}
-                required
                 className="w-full border rounded-md py-1 px-2 mt-1 bg-white border-gray-400 placeholder-gray-500 text-black text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
 
             <div>
-              <label className="font-bold text-sm">Reg Date</label>
+              <label className="font-bold text-sm">Registration Date</label>
               <input
                 type="date"
-                name="Reg_Date"
-                value={item.Reg_Date}
+                name="reg_date"
+                value={item.reg_date}
                 onChange={handleChange}
-                required
                 className="w-full border rounded-md py-1 px-2 mt-1 bg-white border-gray-400 text-black text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
 
             <div>
               <label className="font-bold text-sm">Status</label>
-              <input
-                type="text"
-                name="Status"
-                placeholder="Status"
-                value={item.Status}
+              <select
+                name="status"
+                value={item.status}
                 onChange={handleChange}
-                required
-                className="w-full border rounded-md py-1 px-2 mt-1 bg-white border-gray-400 placeholder-gray-500 text-black text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
+                className="w-full border rounded-md py-1 px-2 mt-1 bg-white border-gray-400 text-black text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              >
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
             </div>
 
             <button
@@ -301,16 +310,16 @@ const AddItem = () => {
           <div className="bg-white border border-gray-300 rounded-lg px-4 py-4 mt-2">
             <h3 className="font-bold text-base mb-2">Added Item Details</h3>
             <div className="space-y-1 text-xs">
-              <p><strong>ID:</strong> {addedItem.id}</p>
-              <p><strong>Item Code:</strong> {addedItem.Item_Code}</p>
-              <p><strong>Item Name:</strong> {addedItem.Item_Name}</p>
-              <p><strong>Item Type:</strong> {addedItem.Item_Type}</p>
-              <p><strong>Quantity:</strong> {addedItem.Quantity}</p>
-              <p><strong>Item Model:</strong> {addedItem.Item_Model}</p>
-              <p><strong>Item Serial:</strong> {addedItem.Item_Serial}</p>
-              <p><strong>Item Category:</strong> {addedItem.Item_Category}</p>
-              <p><strong>Reg Date:</strong> {addedItem.Reg_Date}</p>
-              <p><strong>Status:</strong> {addedItem.Status}</p>
+              <p><strong>Item ID:</strong> {addedItem.item_id}</p>
+              <p><strong>Item Code:</strong> {addedItem.item_code}</p>
+              <p><strong>Item Name:</strong> {addedItem.item_name}</p>
+              <p><strong>Item Type:</strong> {addedItem.item_type}</p>
+              <p><strong>Quantity:</strong> {addedItem.quantity}</p>
+              <p><strong>Item Model:</strong> {addedItem.item_model || '-'}</p>
+              <p><strong>Item Serial:</strong> {addedItem.item_serial || '-'}</p>
+              <p><strong>Item Category:</strong> {addedItem.item_category || '-'}</p>
+              <p><strong>Reg Date:</strong> {addedItem.reg_date ? new Date(addedItem.reg_date).toLocaleDateString() : '-'}</p>
+              <p><strong>Status:</strong> {addedItem.status}</p>
             </div>
           </div>
         )}

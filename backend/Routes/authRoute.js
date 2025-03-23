@@ -1,60 +1,45 @@
 
-// // //import rigister from controllers folder
-// // import express from "express";
-// // import { register,login } from "../Controllers/authControllers.js";
-
-// // const router = express.Router();
-
-// // //register route
-// // router.post("/register", register);
-// // router.post("/login", login);
-// // // router.post("/login", login);
-// // export default router;
-// import express from "express";
-
-// import { register, login, logout,deleteUser,updateUser,fetchData } from "../Controllers/authControllers.js";
-
-
-// const router = express.Router();
-
-// // Register route
-// router.post("/register", register);
-
-// // Login route
-// router.post("/login", login);
-
-// // Fetch data route
-// router.get("/fetchData", fetchData);
-
-// //delete route 
-// //
-
-// //route by email
-
-
-// //update route
-// router.put("/updateUser/:id", authenticate, updateUser);
-// router.delete("/deleteUser/:email", authenticate, deleteUser);
-// // Logout route
-// router.post("/logout", authenticate, logout);
-
-
-
-
-// export default router;
 import express from "express";
-// import { authenticate } from "../Middleware/authMiddleware.js";
-import { register, login, fetchData,getUserById , updateUser, deleteUser, logout } from "../Controllers/authControllers.js";
+import { 
+  register, 
+  login, 
+  getAllEmployees, 
+  getEmployeeById, 
+  updateEmployee, 
+  deleteEmployee,
+  toggleStatus,
+  logout,
+  uploadMiddleware // Import the upload middleware
+} from "../Controllers/authControllers.js";
 
 const router = express.Router();
 
-// Routes with /api/users base path assumed in main server file
-router.post("/register", register);               // POST /api/users/register
-router.post("/login", login);                     // POST /api/users/login
-router.get("/fetchData", fetchData);              // GET /api/users/fetchData
-router.get("/getUserById/:id", getUserById); // GET /api/users/fetchData/:id
-router.post("/updateUser/:id", updateUser);       // PUT /api/users/updateUser/:id ✅ Matches frontend
-router.delete("/deleteUser/:id", deleteUser);     // DELETE /api/users/deleteUser/:id
-router.post("/logout", logout);                   // POST /api/users/logout
+// Routes with /api/employees base path assumed in main server file
+
+// ✅ Register a new employee with file upload middleware
+router.post("/register", uploadMiddleware, register); // POST /api/employees/register
+
+// ✅ Employee login
+router.post("/login", login); // POST /api/employees/login
+
+// ✅ Fetch all employees
+router.get("/fetchData", getAllEmployees); // GET /api/employees/fetchData
+
+// ✅ Fetch an employee by ID
+router.get("/getUserById/:employee_id", getEmployeeById); // GET /api/employees/getUserById/:employee_id
+
+// ✅ Update an employee's details
+router.post("/updateUser/:employee_id", updateEmployee); // PUT /api/employees/updateUser/:employee_id
+
+// ✅ Delete an employee by ID
+router.delete("/deleteUser/:employee_id", deleteEmployee); // DELETE /api/employees/deleteUser/:employee_id
+
+// ✅ Toggle employee status
+router.put("/toggleStatus/:employee_id", toggleStatus);
+
+// ✅ Logout an employee
+router.post("/logout", logout); // POST /api/employees/logout
 
 export default router;
+
+

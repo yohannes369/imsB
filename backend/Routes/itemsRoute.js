@@ -12,14 +12,23 @@
 
 // export default router;
 import express from 'express';
-import { addItem, getItem, deleteItem, updateItem } from '../controllers/itemControllers.js';
+import { addItem, getItem, deleteItem, updateItem, getItemById } from '../controllers/itemControllers.js';
 
 const router = express.Router();
 
-// Route to add an item
-router.post('/addItem', addItem);
-// Route to get all items
-router.get('/getItem', getItem);
-router.delete('/deleteItem/:id', deleteItem);
-router.get('/updateItem/:id', updateItem);
+// Route to add a new item (POST /items)
+router.post('/items', addItem);
+
+// Route to get all items (GET /items)
+router.get('/items', getItem);
+
+// Route to get a single item by item_id (GET /items/:item_id)
+router.get('/items/:item_id', getItemById);
+
+// Route to delete an item by item_id (DELETE /items/:item_id)
+router.delete('/items/:item_id', deleteItem);
+
+// Route to update an item by item_id (PUT /items/:item_id)
+router.put('/items/:item_id', updateItem);
+
 export default router;

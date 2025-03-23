@@ -341,6 +341,7 @@
 // };
 
 // export default ItemList;
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaTrash, FaEdit, FaPlus } from "react-icons/fa";
@@ -355,34 +356,34 @@ const ItemList = ({ refresh }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getItem = async () => {
+    const fetchItems = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get("http://localhost:5000/api/items/getItem");
+        const response = await axios.get("http://localhost:5000/api/items/items/");
         setItems(response.data);
       } catch (err) {
-        setError(err.response?.data || "Failed to fetch items.");
+        setError(err.response?.data?.error || "Failed to fetch items.");
       } finally {
         setLoading(false);
       }
     };
 
-    getItem();
+    fetchItems();
   }, [refresh]);
 
-  const deleteItem = async (id) => {
+  const deleteItem = async (item_id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/items/deleteItem/${id}`);
-      setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+      await axios.delete(`http://localhost:5000/api/items/items/${item_id}`);
+      setItems((prevItems) => prevItems.filter((item) => item.item_id !== item_id));
       setShowConfirm(false);
     } catch (err) {
-      alert("Failed to delete item: " + (err.response?.data || err.message));
+      alert("Failed to delete item: " + (err.response?.data?.error || err.message));
     }
   };
 
-  const handleDeleteClick = (id) => {
-    setItemToDelete(id);
+  const handleDeleteClick = (item_id) => {
+    setItemToDelete(item_id);
     setShowConfirm(true);
   };
 
@@ -434,7 +435,7 @@ const ItemList = ({ refresh }) => {
             <table className="min-w-full">
               <thead className="bg-gradient-to-r from-purple-100 via-teal-100 to-blue-100 text-purple-900">
                 <tr>
-                  {["ID", "Name", "Type", "Quantity", "Model", "Serial", "Category", "Reg. Date", "Status", "Actions"].map(
+                  {["ID", "Code", "Name", "Type", "Quantity", "Model", "Serial", "Category", "Reg. Date", "Status", "Actions"].map(
                     (header) => (
                       <th
                         key={header}
@@ -449,31 +450,32 @@ const ItemList = ({ refresh }) => {
               <tbody className="divide-y divide-gray-300">
                 {items.map((item) => (
                   <tr
-                    key={item.Item_Code}
+                    key={item.item_id}
                     className="group hover:bg-gradient-to-r hover:from-purple-50 hover:via-teal-50 hover:to-blue-50 transition-all duration-300 transform hover:scale-[1.02] animate-row-slide"
                   >
-                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.Item_Code}</td>
-                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.Item_Name}</td>
-                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.Item_Type}</td>
-                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.Quantity}</td>
-                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.Item_Model}</td>
-                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.Item_Serial}</td>
-                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.Item_Category}</td>
+                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.item_id}</td>
+                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.item_code}</td>
+                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.item_name}</td>
+                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.item_type}</td>
+                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.quantity}</td>
+                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.item_model || '-'}</td>
+                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.item_serial || '-'}</td>
+                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.item_category || '-'}</td>
                     <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">
-                      {new Date(item.Reg_Date).toLocaleDateString()}
+                      {new Date(item.reg_date).toLocaleDateString()}
                     </td>
-                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.Status}</td>
+                    <td className="py-4 px-6 text-sm text-gray-900 animate-cell-pop">{item.status}</td>
                     <td className="py-4 px-6 text-sm">
                       <div className="flex space-x-4">
                         <button
-                          onClick={() => navigate(`/Editform/${item.id}`, { state: { item } })}
+                          onClick={() => navigate(`/Editform/${item.item_id}`, { state: { item } })}
                           className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded-full shadow-md transition-all duration-300 transform hover:scale-125 hover:rotate-45 animate-wiggle"
                           aria-label="Edit Item"
                         >
                           <FaEdit size={20} />
                         </button>
                         <button
-                          onClick={() => handleDeleteClick(item.id)}
+                          onClick={() => handleDeleteClick(item.item_id)}
                           className="p-2 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-125 hover:-rotate-45 animate-bounce-slow"
                           aria-label="Delete Item"
                         >
