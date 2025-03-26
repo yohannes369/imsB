@@ -146,35 +146,45 @@
 
 
 
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+
+
+
+
+
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const DepartmentPage = () => {
   const [requests, setRequests] = useState([]);
-  const [notification, setNotification] = useState('');
-  const [comment, setComment] = useState('');
-  const [sortBy, setSortBy] = useState('date');
+  const [filteredRequests, setFilteredRequests] = useState([]);
+  const [notification, setNotification] = useState("");
+  const [comment, setComment] = useState("");
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("Pending");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [requestsPerPage] = useState(5);
 
   useEffect(() => {
     fetchRequests();
-  }, [sortBy]);
+  }, []);
+
+  useEffect(() => {
+    filterRequests();
+  }, [requests, statusFilter]);
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/requests');
-      const sortedRequests = res.data.sort((a, b) => {
-        if (sortBy === 'date') {
-          return new Date(b.created_at) - new Date(a.created_at);
-        } else if (sortBy === 'status') {
-          return a.status.localeCompare(b.status);
-        }
-        return 0;
-      });
-      setRequests(sortedRequests);
+      const res = await axios.get("http://localhost:5000/api/requests");
+      setRequests(res.data);
     } catch (error) {
-      console.error('Error fetching requests:', error);
+      console.error("Error fetching requests:", error);
     }
+  };
+
+  const filterRequests = () => {
+    const filtered = requests.filter((req) => req.status === statusFilter);
+    setFilteredRequests(filtered);
   };
 
   const handleUpdateStatus = async (requestId, status) => {
@@ -184,69 +194,144 @@ const DepartmentPage = () => {
         dept_comment: comment,
       });
       setNotification(`Request ${status.toLowerCase()} successfully!`);
-      setComment('');
+      setComment("");
       fetchRequests();
-      setTimeout(() => setNotification(''), 3000);
+      setTimeout(() => setNotification(""), 3000);
     } catch (error) {
-      console.error('Error updating request status:', error);
-      setNotification('Error updating request status. Please try again.');
+      console.error("Error updating request status:", error);
     }
   };
 
-  const renderRequestCard = (request) => (
-    <div key={request.request_id} className="bg-white p-6 rounded-lg shadow-lg border cursor-pointer" onClick={() => setSelectedRequest(request)}>
-      <p className="text-gray-700"><strong>Item ID:</strong> {request.item_id}</p>
-      <p className="text-gray-700"><strong>Quantity:</strong> {request.quantity}</p>
-      <p className="text-gray-700"><strong>Status:</strong> <span className={`px-2 py-1 rounded text-white ${request.status === 'Accepted' ? 'bg-green-500' : request.status === 'Declined' ? 'bg-red-500' : 'bg-yellow-500'}`}>{request.status}</span></p>
-    </div>
-  );
+  const indexOfLastRequest = currentPage * requestsPerPage;
+  const indexOfFirstRequest = indexOfLastRequest - requestsPerPage;
+  const currentRequests = filteredRequests.slice(indexOfFirstRequest, indexOfLastRequest);
 
   return (
-    <div className="container mx-auto p-8 bg-gray-100 min-h-screen">
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-800">Department Requests</h2>
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="p-2 bg-white border border-gray-300 rounded-lg shadow-sm"
-        >
-          <option value="date">Date (Newest First)</option>
-          <option value="status">Status</option>
-        </select>
+    <div className="min-h-screen bg-gray-100 py-8 px-4 md:px-12 lg:px-24">
+      {/* Header */}
+      <div className="mb-8 text-center">
+        <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-teal-500 to-green-400">
+          Department Requests
+        </h1>
+        <p className="mt-2 text-lg text-gray-600">Manage and track all department requests here.</p>
       </div>
 
+      {/* Status Filter Buttons */}
+      <div className="flex justify-center space-x-4 mb-8">
+        {["Pending", "Accepted", "Declined"].map((status) => (
+          <button
+            key={status}
+            onClick={() => setStatusFilter(status)}
+            className={`px-6 py-2 rounded-full transition duration-300 ${
+              statusFilter === status
+                ? "bg-teal-600 text-white shadow-md"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            {status}
+          </button>
+        ))}
+      </div>
+
+      {/* Notification Banner */}
       {notification && (
-        <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6">
+        <div className="bg-green-100 text-green-800 p-4 rounded-lg shadow-md mb-6 text-center">
           {notification}
         </div>
       )}
 
-      {selectedRequest ? (
-        <div className="bg-white p-6 rounded-lg shadow-lg border">
-          <h3 className="text-xl font-semibold">Request Details</h3>
-          <p className="text-gray-700"><strong>Item ID:</strong> {selectedRequest.item_id}</p>
-          <p className="text-gray-700"><strong>Quantity:</strong> {selectedRequest.quantity}</p>
-          <p className="text-gray-700"><strong>Status:</strong> {selectedRequest.status}</p>
-          <p className="text-gray-700"><strong>Comment:</strong> {selectedRequest.dept_comment || 'No comment'}</p>
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            className="w-full p-2 mt-2 border rounded"
-            placeholder="Add a comment..."
-          />
-          <div className="flex space-x-2 mt-4">
-            <button onClick={() => handleUpdateStatus(selectedRequest.request_id, 'Accepted')} className="flex-1 bg-green-500 text-white p-2 rounded">Accept</button>
-            <button onClick={() => handleUpdateStatus(selectedRequest.request_id, 'Declined')} className="flex-1 bg-red-500 text-white p-2 rounded">Decline</button>
+      {/* Request Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {currentRequests.length > 0 ? (
+          currentRequests.map((req) => (
+            <div
+              key={req.request_id}
+              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            >
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Request #{req.request_id}</h3>
+              <p className="text-sm text-gray-600 mb-2">
+                <strong>Item ID:</strong> {req.item_id}
+              </p>
+              <p className="text-sm text-gray-600 mb-2">
+                <strong>Quantity:</strong> {req.quantity}
+              </p>
+              <button
+                onClick={() => setSelectedRequest(req)}
+                className="text-teal-600 hover:text-teal-800 font-medium underline"
+              >
+                View Details
+              </button>
+            </div>
+          ))
+        ) : (
+          <div className="col-span-full text-center text-gray-600">
+            No requests available for this status.
           </div>
-          <button onClick={() => setSelectedRequest(null)} className="mt-4 bg-gray-500 text-white p-2 rounded">Back to Requests</button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {requests.length === 0 ? (
-            <p className="text-gray-500 col-span-full">No requests available.</p>
-          ) : (
-            requests.map(renderRequestCard)
-          )}
+        )}
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center mt-8 space-x-2">
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="p-2 bg-gray-200 rounded-l-lg disabled:opacity-50 hover:bg-gray-300 transition-colors"
+        >
+          <FiChevronLeft size={20} />
+        </button>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={indexOfLastRequest >= filteredRequests.length}
+          className="p-2 bg-gray-200 rounded-r-lg disabled:opacity-50 hover:bg-gray-300 transition-colors"
+        >
+          <FiChevronRight size={20} />
+        </button>
+      </div>
+
+      {/* Request Details Modal */}
+      {selectedRequest && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white w-full max-w-md p-6 rounded-lg shadow-2xl">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Request Details</h2>
+            <p className="text-sm text-gray-600 mb-2">
+              <strong>Request ID:</strong> {selectedRequest.request_id}
+            </p>
+            <p className="text-sm text-gray-600 mb-2">
+              <strong>Item ID:</strong> {selectedRequest.item_id}
+            </p>
+            <p className="text-sm text-gray-600 mb-2">
+              <strong>Quantity:</strong> {selectedRequest.quantity}
+            </p>
+            <p className="text-sm text-gray-600 mb-4">
+              <strong>Status:</strong> {selectedRequest.status}
+            </p>
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Add a comment..."
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 mb-4"
+            />
+            <div className="flex space-x-4">
+              <button
+                onClick={() => handleUpdateStatus(selectedRequest.request_id, "Accepted")}
+                className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300"
+              >
+                Accept
+              </button>
+              <button
+                onClick={() => handleUpdateStatus(selectedRequest.request_id, "Declined")}
+                className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300"
+              >
+                Decline
+              </button>
+            </div>
+            <button
+              onClick={() => setSelectedRequest(null)}
+              className="w-full mt-4 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg shadow-md transition duration-300"
+            >
+              Close
+            </button>
+          </div>
         </div>
       )}
     </div>
@@ -254,4 +339,5 @@ const DepartmentPage = () => {
 };
 
 export default DepartmentPage;
+
 
