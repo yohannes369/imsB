@@ -1,62 +1,55 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+// import React, { useState } from 'react';
+// import axios from 'axios';
 
-const RequestForm = ({ employeeId }) => {
-  const [formData, setFormData] = useState({
-    item_id: '',
-    quantity: ''
-  });
-  const [message, setMessage] = useState('');
+// const RequestForm = ({ employeeId }) => {
+//   const [itemId, setItemId] = useState('');
+//   const [quantity, setQuantity] = useState('');
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       await axios.post('http://localhost:5000/api/requests', {
+//         employee_id: employeeId,
+//         item_id: itemId,
+//         quantity,
+//       });
+//       alert('Request created successfully!');
+//       setItemId('');
+//       setQuantity('');
+//     } catch (error) {
+//       console.error('Error creating request:', error);
+//       alert('Failed to create request');
+//     }
+//   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('/api/requests', {
-        employee_id: employeeId,
-        item_id: formData.item_id,
-        quantity: formData.quantity
-      });
-      setMessage(response.data.message);
-      setFormData({ item_id: '', quantity: '' });
-    } catch (error) {
-      setMessage(error.response?.data?.error || 'Error submitting request');
-    }
-  };
+//   return (
+//     <form onSubmit={handleSubmit} className="p-4 bg-white rounded-lg shadow-md">
+//       <h2 className="text-xl font-bold mb-4">Create Request</h2>
+//       <div className="mb-4">
+//         <label className="block text-gray-700">Item ID</label>
+//         <input
+//           type="text"
+//           value={itemId}
+//           onChange={(e) => setItemId(e.target.value)}
+//           className="border p-2 w-full rounded"
+//           required
+//         />
+//       </div>
+//       <div className="mb-4">
+//         <label className="block text-gray-700">Quantity</label>
+//         <input
+//           type="number"
+//           value={quantity}
+//           onChange={(e) => setQuantity(e.target.value)}
+//           className="border p-2 w-full rounded"
+//           required
+//         />
+//       </div>
+//       <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+//         Submit
+//       </button>
+//     </form>
+//   );
+// };
 
-  return (
-    <div className="request-form">
-      <h2>Submit Item Request</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Item ID:</label>
-          <input
-            type="number"
-            name="item_id"
-            value={formData.item_id}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input
-            type="number"
-            name="quantity"
-            value={formData.quantity}
-            onChange={handleChange}
-            min="1"
-            required
-          />
-        </div>
-        <button type="submit">Submit Request</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
-  );
-};
-
-export default RequestForm;
+// export default RequestForm;

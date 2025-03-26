@@ -1,4 +1,4 @@
-import Request from "../models/requestModel.js";
+import db from "../config/db.js";
 
 // ✅ Department approves or rejects request
 export const reviewRequest = async (req, res) => {
