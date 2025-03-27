@@ -206,3 +206,13 @@ export const deleteRequest = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+//get notiffication for department
+export const getNotifications = async (req, res) => {
+  try {
+    const [notifications] = await db.query('SELECT * FROM notifications');
+    res.json(notifications);
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    res.status(500).json({ error: error.message });
+  }
+};

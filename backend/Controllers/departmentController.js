@@ -19,3 +19,13 @@ export const reviewRequest = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+//sende notification for the satff
+export const sendNotification = async (req, res) => {
+  try {
+    const { employee_id, request_id, message } = req.body;
+    const notification = await Notification.create({ employee_id, request_id, message });
+    res.status(201).json(notification);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
