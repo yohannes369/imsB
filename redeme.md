@@ -31,8 +31,13 @@ CREATE TABLE Employees (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of creation
 );
 
+npm run build
+ After fixing the issue, clear any build cache and rebuild the project:
 
 
+ npm install recharts --legacy-peer-deps
+
+--legacy-peer-deps use for conflicate dependecy use this one 
 
 
 
