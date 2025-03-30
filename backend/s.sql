@@ -40,4 +40,88 @@ CREATE TABLE requests (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Auto-updates on change
     FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE,
     FOREIGN KEY (item_id) REFERENCES items(item_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;-- Drop existing tables if they exist (optional, only if you want to start fresh)
+DROP TABLE IF EXISTS `notifications`;
+DROP TABLE IF EXISTS `requests`;
+
+-- Table: `notifications`
+-- Purpose: Stores notifications related to employee requests, linked to employees and requests.
+CREATE TABLE `notifications` (
+  `notification_id` int(11) NOT NULL AUTO_INCREMENT, -- Unique identifier for each notification
+  `employee_id` varchar(255) NOT NULL, -- ID of the employee receiving the notification (foreign key)
+  `request_id` int(11) NOT NULL, -- ID of the related request (foreign key)
+  `message` text NOT NULL, -- Notification message content
+  `is_read` tinyint(1) DEFAULT 0, -- Read status (0 = unread, 1 = read)
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(), -- When the notification was created
+  PRIMARY KEY (`notification_id`),
+  FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`request_id`) REFERENCES `requests` (`request_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Table: `requests`
+-- Purpose: Manages item requests made by employees, including status and comments.
+CREATE TABLE `requests` (
+  `request_id` int(11) NOT NULL AUTO_INCREMENT, -- Unique identifier for each request
+  `employee_id` varchar(255) NOT NULL, -- ID of the employee making the request (foreign key)
+  `item_id` varchar(255) NOT NULL, -- ID of the requested item (foreign key)
+  `item_name` varchar(100) NOT NULL, -- Name of the requested item
+  `quantity` int(11) NOT NULL CHECK (`quantity` > 0), -- Requested quantity (must be positive)
+  `status` enum('Pending','Accepted','Declined') DEFAULT 'Pending', -- Request status
+  `dept_comment` text DEFAULT NULL, -- Department comment (optional)
+  `clerk_comment` text DEFAULT NULL, -- Clerk comment (optional)
+  `dept_action_at` timestamp NULL DEFAULT NULL, -- Time of department action
+  `clerk_action_at` timestamp NULL DEFAULT NULL, -- Time of clerk action
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(), -- When the request was created
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(), -- Last update time
+  PRIMARY KEY (`request_id`),
+  FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
+
+
+
+
+
+
+
+
+-- Drop existing tables if they exist (optional, only if you want to start fresh)
+DROP TABLE IF EXISTS `notifications`;
+DROP TABLE IF EXISTS `requests`;
+
+-- Table: `notifications`
+-- Purpose: Stores notifications related to employee requests, linked to employees and requests.
+CREATE TABLE `notifications` (
+  `notification_id` int(11) NOT NULL AUTO_INCREMENT, -- Unique identifier for each notification
+  `employee_id` varchar(255) NOT NULL, -- ID of the employee receiving the notification (foreign key)
+  `request_id` int(11) NOT NULL, -- ID of the related request (foreign key)
+  `message` text NOT NULL, -- Notification message content
+  `is_read` tinyint(1) DEFAULT 0, -- Read status (0 = unread, 1 = read)
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(), -- When the notification was created
+  PRIMARY KEY (`notification_id`),
+  FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`request_id`) REFERENCES `requests` (`request_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Table: `requests`
+-- Purpose: Manages item requests made by employees, including status and comments.
+CREATE TABLE `requests` (
+  `request_id` int(11) NOT NULL AUTO_INCREMENT, -- Unique identifier for each request
+  `employee_id` varchar(255) NOT NULL, -- ID of the employee making the request (foreign key)
+  `item_id` varchar(255) NOT NULL, -- ID of the requested item (foreign key)
+  `item_name` varchar(100) NOT NULL, -- Name of the requested item
+  `quantity` int(11) NOT NULL CHECK (`quantity` > 0), -- Requested quantity (must be positive)
+  `status` enum('Pending','Accepted','Declined') DEFAULT 'Pending', -- Request status
+  `dept_comment` text DEFAULT NULL, -- Department comment (optional)
+  `clerk_comment` text DEFAULT NULL, -- Clerk comment (optional)
+  `dept_action_at` timestamp NULL DEFAULT NULL, -- Time of department action
+  `clerk_action_at` timestamp NULL DEFAULT NULL, -- Time of clerk action
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(), -- When the request was created
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(), -- Last update time
+  PRIMARY KEY (`request_id`),
+  FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

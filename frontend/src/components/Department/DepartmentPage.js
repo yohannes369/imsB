@@ -253,6 +253,12 @@ const DepartmentPage = () => {
                 <strong>Item ID:</strong> {req.item_id}
               </p>
               <p className="text-sm text-gray-600 mb-2">
+                <strong> item name:</strong> {req.item_name}
+              </p>
+               <p className="text-sm text-gray-600 mb-2">
+                <strong>Item ID:</strong> {req.item_id}
+              </p>
+              <p className="text-sm text-gray-600 mb-2">
                 <strong>Quantity:</strong> {req.quantity}
               </p>
               <button

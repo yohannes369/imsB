@@ -37,8 +37,8 @@ npm run build
 
  npm install recharts --legacy-peer-deps
 
---legacy-peer-deps use for conflicate dependecy use this one 
-
+ use for conflicate dependecy use this one 
+--legacy-peer-deps
 
 
 

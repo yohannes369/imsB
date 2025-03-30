@@ -627,6 +627,9 @@ import AddUser from "./components/Admin/add";
 import AdminDashboard from "./components/Admin/admin";
 import ManagerDashboard from "./components/Manager/manager";
 import Cl from "./components/clerk/cl";
+import Clerkdashboard from "./components/clerk/Clerk";
+import Notification from "./components/clerk/notify";
+import ReportPage from "./components/clerk/report";
 import AddItem from "./components/clerk/f";
 import EditForm from "./components/clerk/Editform";
 import Header from "./components/Header/Header";
@@ -743,6 +746,33 @@ const App = () => {
               </Layout>
             }
           />
+          
+          <Route
+            path="/clerk"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <Clerkdashboard />
+              </Layout>
+            }
+          />
+            <Route
+            path="/report"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <ReportPage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/notify"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <Notification />
+              </Layout>
+            }
+          />
+
+
           <Route
             path="/manager"
             element={
