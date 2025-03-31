@@ -625,9 +625,13 @@ import Login from "./components/pages/Log";
 import UpdateUser from "./components/Admin/edit";
 import AddUser from "./components/Admin/add";
 import AdminDashboard from "./components/Admin/admin";
+
 import ManagerDashboard from "./components/Manager/manager";
 import Cl from "./components/clerk/cl";
 import Clerkdashboard from "./components/clerk/Clerk";
+
+import AcceptedRequests from "./components/clerk/accpted";
+
 import Notification from "./components/clerk/notify";
 import ReportPage from "./components/clerk/report";
 import AddItem from "./components/clerk/f";
@@ -647,6 +651,8 @@ import Home from "./components/pages/home";
 import Staff from "./components/Staff/staff";
 import RequestList from "./components/Staff/RequestList";
 import Notifications from "./components/Staff/Notifications";
+
+import Not from "./components/Staff/ge";
 import Chatbot from "./components/Chatbot";
 import Department from "./components/Department/department";
 import DepartmentPage from "./components/Department/DepartmentPage";
@@ -771,6 +777,14 @@ const App = () => {
               </Layout>
             }
           />
+       <Route
+            path="/accepted"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                < AcceptedRequests/>
+              </Layout>
+            }
+          />
 
 
           <Route
@@ -839,6 +853,17 @@ const App = () => {
             }
           />
         
+        <Route
+            path="/ge"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <Not />
+              </Layout>
+            }
+          />
+
+
+
           <Route
             path="/department"
             element={

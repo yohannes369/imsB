@@ -121,6 +121,9 @@ import managerRoutes from "./Routes/managerRoutes.js";
 import chatbotRoutes from "./Routes/chatbotRoutes.js";
 import notificationRoutes from "./Routes/notificationRoutes.js"; // Import notification routes
 
+
+// import accpted 
+
 dotenv.config();
 
 const app = express();
@@ -155,6 +158,7 @@ app.use("/api/departments", departmentRoutes);
 app.use("/api/manager", managerRoutes);
 app.use("/api", chatbotRoutes);
 app.use("/api/notifications", notificationRoutes); // Use notification routes
+
 
 app.listen(5000, () => {
   console.log("Server started on port 5000");

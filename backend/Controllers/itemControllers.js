@@ -297,3 +297,9 @@ export const forecastItemDemand = async (req, res) => {
     res.status(500).json({ error: 'Failed to generate forecast.' });
   }
 };
+
+    //  code feach from requste table  only accpted request form get
+
+    //  code feach from requste table  only accpted request form get by department
+    
+    

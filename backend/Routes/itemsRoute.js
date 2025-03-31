@@ -43,6 +43,7 @@ import {
   deleteItem,
   updateItem,
   getLowStockItems,
+
 //   addItemHistory,
 //   getItemHistory,
 } from '../Controllers/itemControllers.js';
@@ -67,10 +68,13 @@ router.put('/items/:item_id', updateItem);
 // Route to get low stock items
 router.get('/items/low-stock', getLowStockItems);
 
+
 // Route to add item history
 // router.post('/item-history', addItemHistory);
 
 // // Route to get item history by item_id
 // router.get('/item-history/:item_id', getItemHistory);
+
+
 
 export default router;
