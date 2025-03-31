@@ -159,6 +159,7 @@
 
 // export default Login;
 
+
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next"; // Import useTranslation
 import axios from "axios";
@@ -197,9 +198,9 @@ const Login = ({ setRole }) => {
   };
 
   return (
-    <div className="min-h-screen bg-green-950 py-6 flex flex-col sm:py-12">
+    <div className="min-h-screen bg--950 py-6 flex flex-col sm:py-12">
       {/* Container for the Login Box */}
-      <div className="relative mt-5 ml-8 sm:max-w-xl">
+      <div className="relative mt-3 ml-auto mr-24  sm:max-w-xl">
         {/* Background Gradient */}
         <div className="absolute inset-0 bg-gradient-to-r from-green-900 to-green-800 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         {/* White Login Box */}
