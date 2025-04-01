@@ -656,6 +656,7 @@ import Not from "./components/Staff/ge";
 import Chatbot from "./components/Chatbot";
 import Department from "./components/Department/department";
 import DepartmentPage from "./components/Department/DepartmentPage";
+import Sidebar from "./components/Department/side";
 import "./i18n"; // Import i18n configuration
 
 const Layout = ({ role, handleLogout, children }) => {
@@ -880,6 +881,15 @@ const App = () => {
               </Layout>
             }
           />
+            <Route
+            path="/side"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <Sidebar />
+              </Layout>
+            }
+            
+            />
           <Route
             path="/chatbot"
             element={

@@ -33,11 +33,11 @@ function Home() {
           
           {/* Text Overlay with Transparent Effects */}
           <div className="absolute inset-0 bg-gray-800 bg-opacity-40 flex items-center justify-center transition-all duration-500 hover:bg-opacity-50">
-            <div className="text-center p-3 transform transition-all duration-700 hover:scale-110 hover:rotate-1 animate-slide-up">
+            <div className="text-center p-4 transform transition-all duration-700 hover:scale-110 hover:rotate-1 animate-slide-up">
               <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-100 text-opacity-80 drop-shadow-2xl animate-bounce-in">
                 Welcome to Our Inventory Solution
               </h1>
-              <p className="text-md md:text-lg max-w-2xl mx-auto text-gray-200 text-opacity-70 drop-shadow-xl animate-fade-in bg-gray-900 bg-opacity-30 p-2 rounded-lg">
+              <p className="text-md md:text-lg max-w-2xl mx-auto text-gray-200 text-opacity-70 drop-shadow-xl animate-fade-in bg-gray-900 bg-opacity-30 p-3 rounded-lg">
                 Discover how our university-developed inventory system can
                 transform your asset management. Simple, efficient, and tailored
                 for academic excellence.
@@ -49,11 +49,11 @@ function Home() {
         <div className="flex-grow"></div>
       </main>
       
-
+      <Footer />
 
       {/* Integrated Chatbot - Always Visible with transparent background */}
       <div className="fixed bottom-4 right-4 w-80">
-        <div className="bg-white bg-opacity-50 backdrop-blur-sm border border-gary-200 border-opacity-30 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:bg-opacity-70 hover:shadow-xl">
+        <div className="bg-white bg-opacity-50 backdrop-blur-sm border border-gray-200 border-opacity-30 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:bg-opacity-70 hover:shadow-xl">
           <Chatbot 
             botName="Guest Assistance"
             greeting="Hello! I'm here to help with your inventory questions. How can I assist you today?"
@@ -65,4 +65,3 @@ function Home() {
 }
 
 export default Home;
-

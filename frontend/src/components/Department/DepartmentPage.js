@@ -150,7 +150,6 @@
 
 
 
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
@@ -210,10 +209,10 @@ const DepartmentPage = () => {
     <div className="min-h-screen bg-gray-100 py-8 px-4 md:px-12 lg:px-24">
       {/* Header */}
       <div className="mb-8 text-center">
-        <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-teal-500 to-green-400">
+        <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-950 via-teal-700 to-green-500">
           Department Requests
         </h1>
-        <p className="mt-2 text-lg text-gray-600">Manage and track all department requests here.</p>
+        <p className="mt-2 text-lg text-green-950">Manage and track all department requests here.</p>
       </div>
 
       {/* Status Filter Buttons */}
@@ -224,8 +223,8 @@ const DepartmentPage = () => {
             onClick={() => setStatusFilter(status)}
             className={`px-6 py-2 rounded-full transition duration-300 ${
               statusFilter === status
-                ? "bg-teal-600 text-white shadow-md"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                ? "bg-green-950 text-white shadow-md"
+                : "bg-gray-200 text-green-950 hover:bg-gray-300"
             }`}
           >
             {status}
@@ -235,7 +234,7 @@ const DepartmentPage = () => {
 
       {/* Notification Banner */}
       {notification && (
-        <div className="bg-green-100 text-green-800 p-4 rounded-lg shadow-md mb-6 text-center">
+        <div className="bg-green-100 text-green-950 p-4 rounded-lg shadow-md mb-6 text-center">
           {notification}
         </div>
       )}
@@ -248,29 +247,26 @@ const DepartmentPage = () => {
               key={req.request_id}
               className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Request #{req.request_id}</h3>
-              <p className="text-sm text-gray-600 mb-2">
+              <h3 className="text-lg font-semibold text-green-950 mb-2">Request #{req.request_id}</h3>
+              <p className="text-sm text-green-950 mb-2">
                 <strong>Item ID:</strong> {req.item_id}
               </p>
-              <p className="text-sm text-gray-600 mb-2">
-                <strong> item name:</strong> {req.item_name}
+              <p className="text-sm text-green-950 mb-2">
+                <strong>Item Name:</strong> {req.item_name}
               </p>
-               <p className="text-sm text-gray-600 mb-2">
-                <strong>Item ID:</strong> {req.item_id}
-              </p>
-              <p className="text-sm text-gray-600 mb-2">
+              <p className="text-sm text-green-950 mb-2">
                 <strong>Quantity:</strong> {req.quantity}
               </p>
               <button
                 onClick={() => setSelectedRequest(req)}
-                className="text-teal-600 hover:text-teal-800 font-medium underline"
+                className="text-green-950 hover:text-green-800 font-medium underline"
               >
                 View Details
               </button>
             </div>
           ))
         ) : (
-          <div className="col-span-full text-center text-gray-600">
+          <div className="col-span-full text-center text-green-950">
             No requests available for this status.
           </div>
         )}
@@ -281,14 +277,14 @@ const DepartmentPage = () => {
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
-          className="p-2 bg-gray-200 rounded-l-lg disabled:opacity-50 hover:bg-gray-300 transition-colors"
+          className="p-2 bg-gray-200 rounded-l-lg disabled:opacity-50 hover:bg-green-950 hover:text-white transition-colors"
         >
           <FiChevronLeft size={20} />
         </button>
         <button
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={indexOfLastRequest >= filteredRequests.length}
-          className="p-2 bg-gray-200 rounded-r-lg disabled:opacity-50 hover:bg-gray-300 transition-colors"
+          className="p-2 bg-gray-200 rounded-r-lg disabled:opacity-50 hover:bg-green-950 hover:text-white transition-colors"
         >
           <FiChevronRight size={20} />
         </button>
@@ -298,29 +294,29 @@ const DepartmentPage = () => {
       {selectedRequest && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white w-full max-w-md p-6 rounded-lg shadow-2xl">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Request Details</h2>
-            <p className="text-sm text-gray-600 mb-2">
+            <h2 className="text-2xl font-bold text-green-950 mb-4">Request Details</h2>
+            <p className="text-sm text-green-950 mb-2">
               <strong>Request ID:</strong> {selectedRequest.request_id}
             </p>
-            <p className="text-sm text-gray-600 mb-2">
+            <p className="text-sm text-green-950 mb-2">
               <strong>Item ID:</strong> {selectedRequest.item_id}
             </p>
-            <p className="text-sm text-gray-600 mb-2">
+            <p className="text-sm text-green-950 mb-2">
               <strong>Quantity:</strong> {selectedRequest.quantity}
             </p>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-green-950 mb-4">
               <strong>Status:</strong> {selectedRequest.status}
             </p>
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Add a comment..."
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 mb-4"
+              className="w-full p-3 border border-green-950 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 mb-4"
             />
             <div className="flex space-x-4">
               <button
                 onClick={() => handleUpdateStatus(selectedRequest.request_id, "Accepted")}
-                className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300"
+                className="flex-1 bg-green-950 hover:bg-green-800 text-white py-2 px-4 rounded-lg shadow-md transition duration-300"
               >
                 Accept
               </button>
@@ -333,7 +329,7 @@ const DepartmentPage = () => {
             </div>
             <button
               onClick={() => setSelectedRequest(null)}
-              className="w-full mt-4 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg shadow-md transition duration-300"
+              className="w-full mt-4 bg-gray-300 hover:bg-green-950 hover:text-white py-2 px-4 rounded-lg shadow-md transition duration-300"
             >
               Close
             </button>
@@ -345,5 +341,4 @@ const DepartmentPage = () => {
 };
 
 export default DepartmentPage;
-
 
