@@ -49,7 +49,7 @@ function Home() {
         <div className="flex-grow"></div>
       </main>
       
-      <Footer />
+
 
       {/* Integrated Chatbot - Always Visible with transparent background */}
       <div className="fixed bottom-4 right-4 w-80">
