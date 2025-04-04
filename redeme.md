@@ -39,6 +39,9 @@ npm run build
 
  use for conflicate dependecy use this one 
 --legacy-peer-deps
+npm i matrial ui
+then incase of decraaite npm install @mui/material @mui/system @mui/styled-engine @emotion/react @emotion/styled --legacy-peer-deps
+
 
 
 

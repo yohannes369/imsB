@@ -201,3 +201,91 @@ CREATE TABLE `requests` (
   FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE CASCADE,
   FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
+
+
+
+
+
+
+-- 1. Create the `employees` table
+CREATE TABLE IF NOT EXISTS employees (
+    employee_id INT AUTO_INCREMENT PRIMARY KEY,  -- Using INT for employee_id
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('Admin', 'Staff', 'Department', 'Clerk', 'Manager') NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    status ENUM('Active', 'Inactive') DEFAULT 'Active',
+    profile_photo VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 2. Create the `items` table
+CREATE TABLE IF NOT EXISTS items (
+    item_id VARCHAR(50) PRIMARY KEY,  -- Using VARCHAR for item_id
+    item_code VARCHAR(50) NOT NULL UNIQUE,
+    item_name VARCHAR(255) NOT NULL,
+    item_type VARCHAR(255) NOT NULL,
+    quantity INT NOT NULL CHECK (quantity >= 0),
+    item_model VARCHAR(255),
+    item_serial VARCHAR(255),
+    item_category VARCHAR(255),
+    threshold INT DEFAULT 5,
+    reg_date DATE DEFAULT CURRENT_DATE,
+    status ENUM('Active', 'Inactive') DEFAULT 'Active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- 3. Create the `computer_head` table for storing requests from the Computer Head department
+CREATE TABLE IF NOT EXISTS computer_head (
+    request_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT NOT NULL,  -- Using INT for employee_id
+    item_id VARCHAR(50) NOT NULL,  -- Using VARCHAR for item_id
+    quantity INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES items(item_id) ON DELETE CASCADE
+);
+
+-- 4. Create the `pharmacy_department` table for storing requests from the Pharmacy Department
+CREATE TABLE IF NOT EXISTS pharmacy_department (
+    request_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT NOT NULL,  -- Using INT for employee_id
+    item_id VARCHAR(50) NOT NULL,  -- Using VARCHAR for item_id
+    quantity INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES items(item_id) ON DELETE CASCADE
+);
+
+-- 5. Create the `notifications` table for storing notifications related to requests
+CREATE TABLE IF NOT EXISTS notifications (
+    notification_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT NOT NULL,  -- Using INT for employee_id
+    request_id INT NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (request_id) REFERENCES computer_head(request_id) ON DELETE CASCADE, -- Correctly reference computer_head
+    FOREIGN KEY (request_id) REFERENCES pharmacy_department(request_id) ON DELETE CASCADE, -- Correctly reference pharmacy_department
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE  -- Correctly reference employees
+);
+
+CREATE TABLE IF NOT EXISTS requests (
+    request_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id VARCHAR(255) NOT NULL,
+    item_id VARCHAR(50) NOT NULL,
+    item_name VARCHAR(255) NOT NULL, -- Added column for item name
+    quantity INT NOT NULL,
+    department ENUM('ComputerHead', 'PharmacyDepartment') NOT NULL, -- Indicates the department
+    status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES items(item_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

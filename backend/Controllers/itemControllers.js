@@ -297,9 +297,8 @@ export const forecastItemDemand = async (req, res) => {
     res.status(500).json({ error: 'Failed to generate forecast.' });
   }
 };
+// When a stock clerk enters the item name, item code, employee ID, and the quantity to deduct from the total available stock, the system should update the database to reflect the new available quantity 
 
-    //  code feach from requste table  only accpted request form get
 
-    //  code feach from requste table  only accpted request form get by department
-    
+   
     

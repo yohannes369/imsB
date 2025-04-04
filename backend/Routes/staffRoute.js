@@ -23,43 +23,47 @@
 
 // export default router;
 
-import express from "express";
-import {
-  createRequest,
-  getRequests,
-  getRequestById,
-  getRequestsByEmployeeId,
-  updateRequestStatus,
-  addClerkComment,
-  deleteRequest,
-  getNotifications
-} from "../controllers/requestController.js";
+// import express from "express";
+// import {
+//   createRequest,
+//   getRequests,
+//   getRequestById,
+//   getRequestsByEmployeeId,
+//   updateRequestStatus,
+//   addClerkComment,
+//   deleteRequest,
+//   getNotifications,
+//   updateInventory,
+// } from "../controllers/requestController.js";
 
-const router = express.Router();
+// const router = express.Router();
 
-// ✅ Staff submits a request
-router.post("/requests", createRequest);
+// // ✅ Staff submits a request
+// router.post("/requests", createRequest);
 
-// ✅ Get all requests
-router.get("/requests", getRequests);
+// router.post('/updateInventory', updateInventory);
 
-// ✅ Get a request by ID
-router.get("/requests/:request_id", getRequestById);
 
-// ✅ Get requests by Employee ID (Fixed Endpoint)
-router.get("/requests/employee/:employee_id", getRequestsByEmployeeId);
+// // ✅ Get all requests
+// router.get("/requests", getRequests);
 
-// ✅ Department approves or rejects request
-router.put("/requests/:request_id/status", updateRequestStatus);
+// // ✅ Get a request by ID
+// router.get("/requests/:request_id", getRequestById);
 
-// ✅ Clerk adds a comment to a request
-router.put("/requests/:request_id/clerk-comment", addClerkComment);
+// // ✅ Get requests by Employee ID (Fixed Endpoint)
+// router.get("/requests/employee/:employee_id", getRequestsByEmployeeId);
 
-// ✅ Delete a request
-router.delete("/requests/:request_id", deleteRequest);
+// // ✅ Department approves or rejects request
+// router.put("/requests/:request_id/status", updateRequestStatus);
 
-// ✅ Get notifications
-router.get("/notifications/:employee_id", getNotifications);
+// // ✅ Clerk adds a comment to a request
+// router.put("/requests/:request_id/clerk-comment", addClerkComment);
 
-export default router;
+// // ✅ Delete a request
+// router.delete("/requests/:request_id", deleteRequest);
+
+// // ✅ Get notifications
+// router.get("/notifications/:employee_id", getNotifications);
+
+// export default router;
 

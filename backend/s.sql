@@ -125,3 +125,14 @@ CREATE TABLE `requests` (
   FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE CASCADE,
   FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
+
+
+{
+  "item_name": "Laptop",
+  "item_id": "LAP123",
+  "employee_id": "EMP001",
+  "quantity": 1
+}

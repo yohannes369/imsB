@@ -120,8 +120,9 @@ import departmentRoutes from "./Routes/departmentRoute.js";
 import managerRoutes from "./Routes/managerRoutes.js";
 import chatbotRoutes from "./Routes/chatbotRoutes.js";
 import notificationRoutes from "./Routes/notificationRoutes.js"; // Import notification routes
-
-
+import up from  "./Routes/up.js"
+import forcastitem from "./Routes/forcastitem.js"
+// import staffRoute from "./Routes/staffRoute.js"
 // import accpted 
 
 dotenv.config();
@@ -158,8 +159,9 @@ app.use("/api/departments", departmentRoutes);
 app.use("/api/manager", managerRoutes);
 app.use("/api", chatbotRoutes);
 app.use("/api/notifications", notificationRoutes); // Use notification routes
-
-
+app.use("/api", up);
+app.use("/api", forcastitem);
+// app.use("/api", staffRoute); // Use staff routes
 app.listen(5000, () => {
   console.log("Server started on port 5000");
 });

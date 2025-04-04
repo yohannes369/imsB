@@ -626,6 +626,9 @@ import UpdateUser from "./components/Admin/edit";
 import AddUser from "./components/Admin/add";
 import AdminDashboard from "./components/Admin/admin";
 
+import ForecastItemDemand from "./components/clerk/for";
+
+
 import ManagerDashboard from "./components/Manager/manager";
 import Cl from "./components/clerk/cl";
 import Clerkdashboard from "./components/clerk/Clerk";
@@ -898,6 +901,20 @@ const App = () => {
               </Layout>
             }
           />
+
+
+<Route
+            path="/for"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <ForecastItemDemand />
+              </Layout>
+            }
+          />
+
+
+
+
         </Routes>
       </div>
     </Router>

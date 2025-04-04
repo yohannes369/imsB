@@ -376,3 +376,7 @@ export const getNotifications = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+// ✅ Update inventory quantity when a stock clerk submits the form
+// inventoryController.js
