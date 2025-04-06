@@ -210,7 +210,7 @@
 
 import React, { useState } from "react";
 import Sidebar from "./side"; // Import the Sidebar component
-import DepartmentPage from "./DepartmentPage";
+import Depaactivity from "./depaactivity";
 const Department = () => {
   // State for Sidebar Open/Closed
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -298,11 +298,11 @@ const Department = () => {
             Department Dashboard
           </h1>
         </div>
-
+              <Depaactivity />
         {/* Rest of the Department Page Content */}
         <div className="bg-white shadow-2xl rounded-3xl p-8">
           <p className="text-lg text-gray-700">
-           <DepartmentPage />
+      
           </p>
         </div>
       </div>

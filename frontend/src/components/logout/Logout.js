@@ -73,7 +73,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { FaPowerOff } from "react-icons/fa";
 const Logout = ({ onLogout }) => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -98,9 +98,10 @@ const Logout = ({ onLogout }) => {
       {/* Logout Button */}
       <button
         onClick={handleLogoutClick}
-        className="px-6 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white font-semibold rounded-lg shadow-md hover:from-red-700 hover:to-orange-800 hover:shadow-xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 group relative overflow-hidden"
+        className="px-6 py-2 bg- text-white font-semibold rounded-lg shadow-md hover:bg-gray-800 hover:shadow-xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 group relative overflow-hidden"
       >
-        <span className="relative z-10">Logout</span>
+  <FaPowerOff className="mr-2" size={20} /> {/* Black power icon */}
+  
         <span className="absolute inset-0 bg-gradient-to-r from-red-500 to-orange-500 opacity-0 group-hover:opacity-30 transition-opacity duration-300 ease-in-out animate-pulse-fast"></span>
       </button>
 
