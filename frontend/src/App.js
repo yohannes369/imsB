@@ -633,8 +633,8 @@ import ForecastItemDemand from "./components/clerk/for";
 import ManagerDashboard from "./components/Manager/manager";
 import Mnagersidebar from "./components/Manager/managersidebar";
 import Cl from "./components/clerk/cl";
-import Clerkdashboard from "./components/clerk/Clerk";
-
+import ClerkDashboard from "./components/clerk/cdashboard";
+import C from "./components/clerk/c";
 import AcceptedRequests from "./components/clerk/accpted";
 
 import Notification from "./components/clerk/notify";
@@ -775,10 +775,10 @@ const App = () => {
           />
           
           <Route
-            path="/clerk"
+            path="/clerkdashboard"
             element={
               <Layout role={role} handleLogout={handleLogout}>
-                <Clerkdashboard />
+                <ClerkDashboard />
               </Layout>
             }
           />
@@ -812,6 +812,14 @@ const App = () => {
             element={
               <Layout role={role} handleLogout={handleLogout}>
                 < UpdateInventory/>
+              </Layout>
+            }
+          />
+            <Route
+            path="/c"
+            element={
+              <Layout role={role} handleLogout={handleLogout}>
+                <C />
               </Layout>
             }
           />

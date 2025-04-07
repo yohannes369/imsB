@@ -17,10 +17,14 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.8.3",
     "chart.js": "^4.4.8",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "date-fns": "^4.1.0",
+    "docxtemplater": "^3.61.0",
     "framer-motion": "^12.6.3",
     "i18next": "^24.2.3",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
+    "pizzip": "^3.1.8",
     "postcss-cli": "^11.0.0",
     "react": "^19.0.0",
     "react-barcode": "^1.6.1",
@@ -39,8 +43,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+     "build": "react-scripts build",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+   
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
